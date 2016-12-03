@@ -1,6 +1,6 @@
 # Linear
 
-Linear is the fast development environments with express. Inspired micro services.
+Linear is the fast development environments with express. From micro service to more big services.
 
 ## Features
 
