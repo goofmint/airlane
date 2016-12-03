@@ -1,125 +1,162 @@
-# DevCle
+# Linear
 
-DevCle is marketing automation tool developed by Node.js. DevCle is especially forcus on Developer Relations.
+Linear is the fast development environments with express. Inspired micro services.
 
 ## Features
 
-- [ ] Contact form
-- [ ] User authentication
-- [ ] Forum
-- [ ] Event page
-- [ ] Webhook
-- [ ] RESTful API
-- [ ] OAuth2
-- [ ] Social service management
-- [ ] Email magazine
-- [ ] Administration
+- Routing
+- Database with O/R mapper (Sequelize)
+- Each routing has own MVC structure
+- Code generator
+- Support ES2015
+- Development server
 
-## Architectures
-
-### Module/Plugin based
-
-Most of features are provided by plugins or modules. Module is contoller or router. Plugin is model or something extended DevCle.
-
-You can make a feature under `src/modules/`.
-
-1. Make directory
-2. Make index.js under its directory
-3. And coding. basic code is below.
+## Install
 
 ```
-var express = require('express');
-var router = express.Router();
-
-router.get('/new', (req, res, next) => {
-  res.render(`${__dirname}/views/index`); 
-});
-
-module.exports = {
-  router: router
-};
+npm install linear -g
 ```
 
-You can use your view files. Make a directory named *view* under your module directory. We have selected view engine Jade.
+## Usage
 
 ```
-src/modules/your_module_name/
-├── index.js
-└── views
-    └── index.jade
+cd some/path
+linear init app # Your application name
+linear serve
 ```
 
-If you want to use your JavaScript or Stylesheet files on Web browser for your module. When you make a directory named *public* under your module directory. It mount under public/modules/ with your_module_name.
+Open http://localhost:8080/
+
+## Constructors
+
+Linear generates those files.
 
 ```
-src/modules/auth/
-├── controller.js
-├── index.js
-├── public
-│   └── app.js
-└── views
-    └── index.jade
+$ tree .
+.
+├── config.js
+├── modules
+├── package.json
+├── routes
+│   ├── controller.js
+│   ├── index.js
+│   ├── public
+│   │   ├── app.css
+│   │   └── app.js
+│   └── views
+│       ├── edit.jade
+│       ├── index.jade
+│       └── new.jade
+└── tmp
 ```
 
-You can access the app.js file from web browser like *http://localhost:8080/modules/auth/app.js*.
+- config.js is development configures.
+- module contains database model, libraries.
+- routes contains controller, router, javascript, stylesheets, and views.
+- tmp is for temporary files like session database.
 
-#### Plugin
+Default router supports below.
 
-Plugin has role. Currently only *User*. Module call the plugin like this.
+- GET /
+- GET /new
+- GET /:id/edit
+- POST /
+- PUT /:id
+- DELETE /:id
 
-```
-var User = plugins.find('User')[0];
-// Login
-User.login(req.body.userId, req.body.password)
-  .then((user) => {
-    req.session.currentUser = user;
-    res.status(200).json(user);
-  },
-  (err) => {
-    res.status(400).json(err);
-  })
-```
+## Add new routes.
 
-You can choose any type of User model like Database, social, oauth2, LDAP or anything. Because JavaScript has no feature interface yet.
-
-And User plguin is like below.
+When you add new routes like /users, you should enter command below.
 
 ```
-class User {
-  constructor(params) {
-    var keys = ['id', 'userId', 'password'];
-    for (var key in keys) {
-      if (params[key]) {
-        this[key] = params[key];
-        delete params[key];
-      }
-    }
-    if (Object.keys(params).length > 0) {
-      this.params = params;
-    }
-  }
-  
-  static login(userId, password) {
-    return new Promise(function(res, rej) {
-      var user = new User({id: '001', userId: userId, password: password});
-      return res(user);
-    });
-  }
-  
+$ linear generate route users
+```
+
+Linear generates those files.
+
+```
+$ tree .
+.
+├── routes
+│   ├── users
+│   │   ├── controller.js
+│   │   ├── index.js
+│   │   ├── public
+│   │   │   ├── app.css
+│   │   │   └── app.js
+│   │   └── views
+│   │       ├── edit.jade
+│   │       ├── index.jade
+│   │       └── new.jade
+```
+
+Each route has own MVC inside routes directory. After generating, you have those routes.
+
+- GET /users
+- GET /users/new
+- GET /users/:id/edit
+- POST /users
+- PUT /users/:id
+- DELETE /users/:id
+
+## Modules
+
+Linear has no module generator. You can make files like this.
+
+```
+modules/
+└── db
+    ├── index.js
+    └── user.js
+```
+
+**index.js**
+
+```
+module.exports = (options) => {
+  var User = require('./user')(options);
+  return [User];
 }
-User.role = 'User';  // Role
-module.exports = User;
 ```
 
-### ES6 based
-
-DevCle have created by ES6(ES2015). You can use Class, template string, let/const or any ES6 features.
-
-### Development note
+**user.js:**
 
 ```
-cd node_modules/transformers
-$ npm install marked --save
+// var sequelize = require('../../libs/database');
+var crypto = require("crypto");
+
+module.exports = (options) => {
+  var database = options.database;
+  var Sequelize = database.Sequelize;
+  var db = database.database;
+
+  var User = db.define('users', {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    name: {
+      type: Sequelize.STRING
+    },
+    :
+  }, {
+    freezeTableName: true
+  });
+
+  User.role = 'User';
+  return User;
+}
+```
+
+Linear supports Sequelize for O/R mapping. And you can use modules in router.
+
+```
+router.get('/new', (req, res, next) => {
+  console.log(req.app.linear.modules); // All modules
+  console.log(req.app.linear.modules.find('User')); // Get user module. You decide it with module's role like User.role = 'User';
+  controller.new(req, res, next);
+});
 ```
 
 ### LICENSE
