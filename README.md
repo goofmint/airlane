@@ -1,6 +1,6 @@
-# Linear
+# Airlane
 
-Linear is the fast development environments with express. From micro service to more big services.
+Airlane is the fast development environments with express. From micro service to more big services.
 
 ## Features
 
@@ -14,22 +14,22 @@ Linear is the fast development environments with express. From micro service to 
 ## Install
 
 ```
-npm install linear -g
+npm install airlane -g
 ```
 
 ## Usage
 
 ```
 cd some/path
-linear init app # Your application name
-linear serve
+airlane init app # Your application name
+airlane serve
 ```
 
 Open http://localhost:8080/
 
 ## Constructors
 
-Linear generates those files.
+Airlane generates those files.
 
 ```
 $ tree .
@@ -69,10 +69,10 @@ Default router supports below.
 When you add new routes like /users, you should enter command below.
 
 ```
-$ linear generate route users
+$ airlane generate route users
 ```
 
-Linear generates those files.
+Airlane generates those files.
 
 ```
 $ tree .
@@ -101,7 +101,7 @@ Each route has own MVC inside routes directory. After generating, you have those
 
 ## Modules
 
-Linear has no module generator. You can make files like this.
+airlane has no module generator. You can make files like this.
 
 ```
 modules/
@@ -149,12 +149,12 @@ module.exports = (options) => {
 }
 ```
 
-Linear supports Sequelize for O/R mapping. And you can use modules in router.
+Airlane supports Sequelize for O/R mapping. And you can use modules in router.
 
 ```
 router.get('/new', (req, res, next) => {
-  console.log(req.app.linear.modules); // All modules
-  console.log(req.app.linear.modules.find('User')); // Get user module. You decide it with module's role like User.role = 'User';
+  console.log(req.app.airlane.modules); // All modules
+  console.log(req.app.airlane.modules.find('User')); // Get user module. You decide it with module's role like User.role = 'User';
   controller.new(req, res, next);
 });
 ```
