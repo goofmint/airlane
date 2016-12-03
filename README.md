@@ -6,7 +6,8 @@ Airlane is the fast development environments with express. From micro service to
 
 - Routing
 - Database with O/R mapper (Sequelize)
-- Each routing has own MVC structure
+- Each routing has own View, Routing and Controller
+- Session
 - Code generator
 - Support ES2015
 - Development server
@@ -31,31 +32,14 @@ Open http://localhost:8080/
 
 Airlane generates those files.
 
-```
-$ tree .
-.
-├── config.js
-├── modules
-├── package.json
-├── routes
-│   ├── controller.js
-│   ├── index.js
-│   ├── public
-│   │   ├── app.css
-│   │   └── app.js
-│   └── views
-│       ├── edit.jade
-│       ├── index.jade
-│       └── new.jade
-└── tmp
-```
+![](../airline/images/airlane-2.png)
 
 - config.js is development configures.
 - module contains database model, libraries.
 - routes contains controller, router, javascript, stylesheets, and views.
 - tmp is for temporary files like session database.
 
-Default router supports below.
+Default router supports below. It's simple RESTful.
 
 - GET /
 - GET /new
@@ -90,7 +74,9 @@ $ tree .
 │   │       └── new.jade
 ```
 
-Each route has own MVC inside routes directory. After generating, you have those routes.
+![](../airline/images/airlane-1.png)
+
+Each route has own View, Routing and Controller inside routes directory. After generating, you have those routes.
 
 - GET /users
 - GET /users/new
@@ -101,7 +87,7 @@ Each route has own MVC inside routes directory. After generating, you have those
 
 ## Modules
 
-Airlane has no module generator. You can make files like this.
+Airlane has no module generator yet. You can make files like this.
 
 ```
 modules/
@@ -109,6 +95,8 @@ modules/
     ├── index.js
     └── user.js
 ```
+
+Airlane read every modules under modules directory. Each module has sub directory like db and there is index.js. Airlane import index.js.
 
 **index.js**
 
@@ -149,7 +137,7 @@ module.exports = (options) => {
 }
 ```
 
-Airlane supports Sequelize for O/R mapping. And you can use modules in router.
+Airlane supports Sequelize for O/R mapping. And you can use modules in router like this.
 
 ```
 router.get('/new', (req, res, next) => {
@@ -159,6 +147,13 @@ router.get('/new', (req, res, next) => {
 });
 ```
 
-### LICENSE
+## TODO
+
+- [ ] Generate module
+- [ ] Sample code
+- [ ] Test system
+- [ ] Auto re-deploy. Node-mon doesn't support ES2015
+
+## LICENSE
 
 MIT License
