@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+let inquirer = require("inquirer");
+var fs = require('fs-extra');
+require('../libs/common');
+
+/*
+var program = require('commander');
+program
+  .version('0.0.1')
+  .parse(process.argv);
+*/
+let target_dir = fs.realpathSync('./');
+let app_name = process.argv[2];
+var templates = require('./templates')(app_name, true);
+var questions = [];
+var promises = [];
+
+var paths = ['tmp', 'modules', 'config.js', 'package.json', 'routes/index.js', 'routes/controller.js', 'routes/public/app.js', 'routes/public/app.css', 'routes/views/index.jade', 'routes/views/new.jade', 'routes/views/edit.jade'];
+for (var i in paths) {
+  promises.push(new Promise((res, rej) => {
+    var filename = paths[i];
+    fs.access(`${target_dir}/${filename}`, 'wx', (err, fd) => {
+      if (err == null) {
+        return res({
+          type: 'confirm',
+          name: `overwrite_${filename}`,
+          message: `File or Directory ${target_dir}/${filename} exist. Could you overwrite it?`,
+          default: true
+        });
+      }
+      return res(null)
+    });
+  }));
+}
+
+Promise.all(promises).then((values) => {
+  questions = values.filter(function(question) {
+    return question != null;
+  });
+  
+  if (questions.length === 0) {
+    return createBase();
+  }
+  inquirer.prompt(questions).then((answers) => {
+    createBase(answers);
+  });
+});
+
+
+createBase = (answers = {}) => {
+  fs.mkdirsSync(target_dir);
+  var dirs = ['tmp', 'modules', 'routes/views', 'routes/public'];
+  for (var i in dirs) {
+    var dir = dirs[0];
+    if (answers[`overwrite_${dir}`] !== false) {
+      fs.mkdirsSync(`${target_dir}/${dir}`);
+    }
+  }
+  for (var i in paths) {
+    var filename = paths[i];
+    if (answers[`overwrite_${filename}`] !== false && templates[filename.replace('routes/', '')]) {
+      fs.writeFileSync(`${target_dir}/${filename}`, templates[filename.replace('routes/', '')]);
+    }
+  }
+  for (var i in templates.init) {
+    if (answers[`overwrite_${i}`] !== false) {
+      fs.writeFileSync(`${target_dir}/${i}`, templates.init[i]);
+    }
+  }
+}
