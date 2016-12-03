@@ -32,7 +32,7 @@ Open http://localhost:8080/
 
 Airlane generates those files.
 
-![](../airline/images/airlane-2.png)
+![](images/airlane-2.png)
 
 - config.js is development configures.
 - module contains database model, libraries.
@@ -74,7 +74,7 @@ $ tree .
 │   │       └── new.jade
 ```
 
-![](../airline/images/airlane-1.png)
+![](images/airlane-1.png)
 
 Each route has own View, Routing and Controller inside routes directory. After generating, you have those routes.
 
