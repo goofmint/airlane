@@ -12,7 +12,6 @@ router.all('*',  (req, res, next) => {
 
 // GET /
 router.get('/', (req, res, next) => {
-  console.log(req.app.airlane);
   controller.index(req, res, next);
 });
 

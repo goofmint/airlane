@@ -25,7 +25,7 @@ modules.getModules(target_dir).then(() => {
   process.exit(1);
 });
 
-app.airlane = {
+app.airline = {
   modules: modules
 };
 

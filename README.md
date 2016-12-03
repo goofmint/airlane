@@ -1,6 +1,6 @@
-# Airlane
+# Airline
 
-Airlane is the fast development environments with express. From micro service to more big services.
+Airline is the fast development environments with express. From micro service to more big services.
 
 ## Features
 
@@ -14,22 +14,22 @@ Airlane is the fast development environments with express. From micro service to
 ## Install
 
 ```
-npm install airlane -g
+npm install airline -g
 ```
 
 ## Usage
 
 ```
 cd some/path
-airlane init app # Your application name
-airlane serve
+airline init app # Your application name
+airline serve
 ```
 
 Open http://localhost:8080/
 
 ## Constructors
 
-Airlane generates those files.
+Airline generates those files.
 
 ```
 $ tree .
@@ -69,10 +69,10 @@ Default router supports below.
 When you add new routes like /users, you should enter command below.
 
 ```
-$ airlane generate route users
+$ airline generate route users
 ```
 
-Airlane generates those files.
+Airline generates those files.
 
 ```
 $ tree .
@@ -101,7 +101,7 @@ Each route has own MVC inside routes directory. After generating, you have those
 
 ## Modules
 
-airlane has no module generator. You can make files like this.
+Airline has no module generator. You can make files like this.
 
 ```
 modules/
@@ -149,12 +149,12 @@ module.exports = (options) => {
 }
 ```
 
-Airlane supports Sequelize for O/R mapping. And you can use modules in router.
+Airline supports Sequelize for O/R mapping. And you can use modules in router.
 
 ```
 router.get('/new', (req, res, next) => {
-  console.log(req.app.airlane.modules); // All modules
-  console.log(req.app.airlane.modules.find('User')); // Get user module. You decide it with module's role like User.role = 'User';
+  console.log(req.app.airline.modules); // All modules
+  console.log(req.app.airline.modules.find('User')); // Get user module. You decide it with module's role like User.role = 'User';
   controller.new(req, res, next);
 });
 ```

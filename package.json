@@ -1,7 +1,7 @@
 {
-  "name": "airlane",
+  "name": "airline",
   "version": "0.0.1",
-  "description": "airlane is micro service framework with express.",
+  "description": "airline is micro service framework with express.",
   "main": "gulpfile.babel.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
