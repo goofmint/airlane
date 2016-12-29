@@ -8,3 +8,5 @@ generate
 node_modules/
 npm-debug.log
 example/config.js
+**/public/app.min.js
+**/public/app.min.css

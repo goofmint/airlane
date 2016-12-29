@@ -9,8 +9,9 @@ program
   .version('0.0.1')
   .parse(process.argv);
 */
-let target_dir = fs.realpathSync('./');
 let app_name = process.argv[2];
+let target_dir = fs.realpathSync('./');
+target_dir = `${target_dir}/${app_name}`
 var templates = require('./templates')(app_name, true);
 var questions = [];
 var promises = [];

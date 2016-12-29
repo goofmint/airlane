@@ -1,4 +1,3 @@
-// var sequelize = require('../../libs/database');
 var crypto = require("crypto");
 
 module.exports = (options) => {

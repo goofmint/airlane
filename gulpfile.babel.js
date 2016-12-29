@@ -19,35 +19,6 @@ var cache = new Cache();
 
 var concat = require('gulp-concat');
 
-gulp.task('debugserver', function() {
-  livereload.listen();
-  nodemon({
-    exec: 'node --inspect --debug',
-    script: 'server.js',
-    ext: 'js, json, jade, css',
-    task: ['compile', 'copy'],
-    ignore: [   // nodemon ignore directory
-      'views',
-      'clientsrc'
-    ],
-    env: {
-      'NODE_ENV': 'development'
-    },
-    stdout: true
-  }).on('readable', function() {
-    this.stdout.on('data', function(chunk) {
-      if (/^application\ started/.test(chunk)) {
-        livereload.reload();
-      }
-      process.stdout.write(chunk);
-    });
-    this.stderr.on('data', function(chunk) {
-      process.stderr.write(chunk);
-    });
-  });
-
-});
-
 gulp.task('watch', function() {
   gulp.watch(["./src/**/*.js"], ["compile"]);
   gulp.watch(["./public/**/*.*", "./views/**/*.*"], function(e) {
@@ -66,7 +37,5 @@ gulp.task('compile', function () {
 
 gulp.task("default", [
   'compile',
-  'copy',
-  'debugserver',
   'watch'
 ]);

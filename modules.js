@@ -10,7 +10,7 @@ var Modules = function () {
   function Modules(options) {
     _classCallCheck(this, Modules);
 
-    this.modules = [];
+    this.modules = {};
     this.options = options;
   }
 
@@ -29,8 +29,7 @@ var Modules = function () {
               }
               console.log('Load module. ' + target_dir + '/modules/' + dir);
               var module = require(target_dir + '/modules/' + dir)(me.options);
-
-              me.modules.push(module);
+              me.modules[dir.capitalize()] = module;
             }
             res();
           });

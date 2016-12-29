@@ -2,7 +2,7 @@ var fs = require('fs');
 
 class Modules {
   constructor(options) {
-    this.modules = [];
+    this.modules = {};
     this.options = options;
   }
   getModules(target_dir) {
@@ -18,8 +18,7 @@ class Modules {
             }
             console.log(`Load module. ${target_dir}/modules/${dir}`)
             var module = require(`${target_dir}/modules/${dir}`)(me.options);
-            
-            me.modules.push(module);
+            me.modules[dir.capitalize()] = module;
           }
           res();
         });

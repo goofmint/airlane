@@ -162,11 +162,10 @@ html
     'config.js': `module.exports = {
   development: {
     session_key: '${randomstring.generate(30)}',
+    view_engine: 'jade',
     database: {
       driver: 'sqlite',
       host: 'localhost',
-      username: 'username',
-      password: 'password',
       database: '${controllerName.toLowerCase()}_development'
     }
   }
@@ -182,7 +181,8 @@ html
   "author": "",
   "license": "",
   "dependencies": {
-    "sqlite3": "^3.1.8"
+    "sqlite3": "^3.1.8",
+    "jade": "^1.11.0"
   }
 }`
     }

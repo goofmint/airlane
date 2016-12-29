@@ -15,7 +15,9 @@ var NedbStore         = require('connect-nedb-session')(session)
 let target_dir        = fs.realpathSync('./');
 var config            = require(`${target_dir}/config`)[process.env.NODE_ENV];
 var database          = require('./libs/database')(target_dir);
+var common            = require('./libs/common');
 var Modules           = require('./modules');
+var methodOverride    = require('method-override');
 
 var modules = new Modules({database: database});
 modules.getModules(target_dir).then(() => {
@@ -26,7 +28,7 @@ modules.getModules(target_dir).then(() => {
 });
 
 app.airlane = {
-  modules: modules
+  modules: modules.modules
 };
 
 // =======================
@@ -38,12 +40,23 @@ var port = process.env.PORT || 8080;
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+        
+app.use( methodOverride( (req, res) => {
+  console.log('req.body', req.body)
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}) );        
 
 // static file folder
 app.use(express.static(`${target_dir}/public`));
 
 // html template
-app.set('view engine', 'jade');
+if (config.view_engine)
+  app.set('view engine', config.view_engine);
 app.set('views', __dirname + '/views');
 
 app.use(session({

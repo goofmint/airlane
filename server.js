@@ -1,5 +1,7 @@
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _express = require('express');
 
 var _express2 = _interopRequireDefault(_express);
@@ -21,7 +23,9 @@ var NedbStore = require('connect-nedb-session')(session);
 var target_dir = fs.realpathSync('./');
 var config = require(target_dir + '/config')[process.env.NODE_ENV];
 var database = require('./libs/database')(target_dir);
+var common = require('./libs/common');
 var Modules = require('./modules');
+var methodOverride = require('method-override');
 
 var modules = new Modules({ database: database });
 modules.getModules(target_dir).then(function () {
@@ -32,7 +36,7 @@ modules.getModules(target_dir).then(function () {
 });
 
 app.airlane = {
-  modules: modules
+  modules: modules.modules
 };
 
 // =======================
@@ -45,11 +49,21 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.use(methodOverride(function (req, res) {
+  console.log('req.body', req.body);
+  if (req.body && _typeof(req.body) === 'object' && '_method' in req.body) {
+    // look in urlencoded POST bodies and delete it
+    var method = req.body._method;
+    delete req.body._method;
+    return method;
+  }
+}));
+
 // static file folder
 app.use(_express2.default.static(target_dir + '/public'));
 
 // html template
-app.set('view engine', 'jade');
+if (config.view_engine) app.set('view engine', config.view_engine);
 app.set('views', __dirname + '/views');
 
 app.use(session({
