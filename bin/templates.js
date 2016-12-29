@@ -148,12 +148,12 @@ html
     title ${module_name}#edit
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    link(rel="stylesheet", type="text/css", href="/${module_name}/app.css")
+    link(rel="stylesheet", type="text/css", href="/${module_name}/app.min.css")
   body
     h1 ${module_name}#edit
       
-    script(src="/js/app.js")
-    script(src="/${module_name}/app.js")`,
+    script(src="/js/app.min.js")
+    script(src="/${module_name}/app.min.js")`,
   'public/app.js': `// JavaScript
 `,
   'public/app.css': `/* Stylesheet */

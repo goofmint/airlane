@@ -5,12 +5,21 @@ Airlane is the fast development environments with express. From micro service to
 ## Features
 
 - Routing
-- Database with O/R mapper (Sequelize)
+- Database with O/R mapper ([Sequelize](http://docs.sequelizejs.com/en/v3/))
+  - Support PostgreSQL/MySQL/SQLite3/MS SQL
 - Each routing has own View, Routing and Controller
 - Session
 - Code generator
 - Support ES2015
+  - Server side
+  - Web Browser
 - Development server
+  - Chrome inspector
+  - Auto reload
+  - Auto re-deploy
+- Watchify
+  - Client side JavaScript
+  - Client side Stylesheet
 
 ## Install
 
@@ -23,6 +32,7 @@ npm install airlane -g
 ```
 cd some/path
 airlane init app # Your application name
+cd app
 airlane serve
 ```
 
@@ -101,9 +111,25 @@ Airlane read every modules under modules directory. Each module has sub director
 **index.js**
 
 ```
+let fs = require('fs');
+let target_dir = fs.realpathSync('./');
+
 module.exports = (options) => {
-  var User = require('./user')(options);
-  return [User];
+  let models = {};
+  fs.readdir(`${target_dir}/modules/db`, (error, files) => {
+    files.forEach((file, i) => {
+      if (file.match(/^\./)) {
+        return;
+      }
+      if (file === 'index.js')
+        return;
+      if (!file.match(/.*\.js$/))
+        return;
+      file = file.replace(/\.js$/g, "");
+      models[file.capitalize()] = require(`./${file}`)(options)
+    })
+  });
+  return models;
 }
 ```
 
@@ -152,7 +178,6 @@ router.get('/new', (req, res, next) => {
 - [ ] Generate module
 - [ ] Sample code
 - [ ] Test system
-- [ ] Auto re-deploy. Node-mon doesn't support ES2015
 
 ## LICENSE
 
