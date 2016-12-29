@@ -1,6 +1,6 @@
 # Airlane
 
-Airlane is the fast development environments with express. From micro service to more big services.
+Airlane is the fast and confortable development environments with Node.js and Express. From micro service to more big services.
 
 ## Features
 
@@ -10,6 +10,9 @@ Airlane is the fast development environments with express. From micro service to
 - Each routing has own View, Routing and Controller
 - Session
 - Code generator
+  - Initialize
+  - Controller
+  - Model
 - Support ES2015
   - Server side
   - Web Browser

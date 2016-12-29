@@ -8,9 +8,8 @@ let model_name = process.argv[2];
 var templates = require('./templates')(model_name);
 
 // Check directory
-
-var db_dir = `${target_dir}/modules/db/`;
-var path = `${db_dir}${model_name}.js`
+var mailer_dir = `${target_dir}/modules/mailer/`;
+var path = `${mailer_dir}${model_name}.js`
 
 var questions = [];
 var promises = [];
@@ -48,8 +47,8 @@ Promise.all(promises).then((values) => {
 
 createBase = (answers = {}) => {
   if (answers[`overwrite`] !== false) {
-    fs.mkdirsSync(db_dir);
-    fs.writeFileSync(`${path}`, templates['db_model']);
+    fs.mkdirsSync(mailer_dir);
+    fs.writeFileSync(`${path}`, templates['mailer']);
     console.log(`${path} created.`)
   }
 }

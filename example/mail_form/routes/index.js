@@ -1,7 +1,5 @@
 var express = require('express');
 var router = express.Router();
-// var plugins = require('../../plugins');
-// var common  = require('../../libs/common');
 var controller = require('./controller')
 
 // Every methods go through this function.
@@ -10,37 +8,37 @@ router.all('*',  (req, res, next) => {
   controller.all(req, res, next);
 });
 
-// GET users/new
-// Show create page
+// GET /
+// Show index page
 router.get('/', (req, res, next) => {
   controller.index(req, res, next);
 });
 
-// GET users/new
+// GET /new
 // Show create page
 router.get('/new', (req, res, next) => {
   controller.new(req, res, next);
 });
 
-// POST users
+// POST 
 // Create something.
 router.post('/', (req, res, next) => {
   controller.create(req, res, next);
 });
 
-// GET users/:id/edit
+// GET /:id/edit
 // Show edit page
 router.get('/:id/edit', (req, res, next) => {
   controller.edit(req, res, next);
 });
 
-// PUT users/:id
+// PUT /:id
 // Update something.
 router.put('/:id', (req, res, next) => {
   controller.update(req, res, next);
 });
 
-// DELETE users/:id
+// DELETE /:id
 // Delete something.
 router.delete('/:id', (req, res, next) => {
   controller.destroy(req, res, next);

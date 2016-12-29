@@ -1,0 +1,16 @@
+Thank you for your contact.
+
+This is your contact body.
+
+Your company name:
+  __COMPANYNAME__
+
+Your name:
+  __NAME__
+
+Email:
+  __EMAIL__
+
+Body:
+
+__BODY__

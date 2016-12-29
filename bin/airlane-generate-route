@@ -37,7 +37,7 @@ promises.push(new Promise((res, rej) => {
   });
 }));
 
-let paths = ['index.js', 'controller.js', 'public/app.js', 'public/app.css', 'views/new.jade', 'views/edit.jade'];
+let paths = ['index.js', 'controller.js', 'public/app.js', 'public/app.css', 'views/new.jade', 'views/index.jade', 'views/layout.jade', 'views/edit.jade'];
 for (var i in paths) {
   promises.push(new Promise((res, rej) => {
     var filename = paths[i];

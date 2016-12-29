@@ -44,7 +44,6 @@ module.exports = (options) => {
         if (user == null) {
           return rej({message: 'User is not found.'});
         }
-        console.log(user);
         var pass = User.generate_password(password);
         if (user.password === pass) {
           res(user);

@@ -116,44 +116,37 @@ class ${controllerName}Controller {
 
 module.exports = new ${controllerName}Controller;
 `,
-  'views/new.jade': `doctype html
+  'views/layout.jade': `doctype html
 html
   head
-    title ${module_name}#new
+    block title
     meta(charset="utf-8")
     meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    link(rel="stylesheet", type="text/css", href="/${module_name}/app.css")
+    ${module_name == "" ? "" : 'link(rel="stylesheet", type="text/css", href="/app.min.css")'}
+    link(rel="stylesheet", type="text/css", href="/${module_name == "" ? "" : module_name + "/"}app.min.css")
   body
-    h1 ${module_name}#new
-      
-    script(src="/js/app.js")
-    script(src="/${module_name}/app.js")
-  `,
-  'views/index.jade': `doctype html
-html
-  head
-    title ${module_name}#new
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    link(rel="stylesheet", type="text/css", href="/${module_name}/app.css")
-  body
-    h1 ${module_name}#Index
-      
-    script(src="/js/app.js")
-    script(src="/${module_name}/app.js")
-  `,
-  'views/edit.jade': `doctype html
-html
-  head
-    title ${module_name}#edit
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    link(rel="stylesheet", type="text/css", href="/${module_name}/app.min.css")
-  body
-    h1 ${module_name}#edit
-      
-    script(src="/js/app.min.js")
-    script(src="/${module_name}/app.min.js")`,
+    block body
+    ${module_name == "" ? "" : 'script(src="/app.min.js")'}
+    script(src="/${module_name == "" ? "" : module_name + "/"}app.min.js")
+`,
+  'views/new.jade': `extends ./layout
+block title
+  title ${module_name}#new
+block body
+  h1 ${module_name}#new
+`,
+  'views/index.jade': `extends ./layout
+block title
+  title ${module_name}#index
+block body
+  h1 ${module_name}#index
+`,
+  'views/edit.jade': `extends ./layout
+block title
+  title ${module_name}#edit
+block body
+  h1 ${module_name}#edit
+`,
   'public/app.js': `// JavaScript
 `,
   'public/app.css': `/* Stylesheet */
@@ -163,6 +156,12 @@ html
   development: {
     session_key: '${randomstring.generate(30)}',
     view_engine: 'jade',
+    smtp: {
+      secure: true,
+      user: 'user',
+      password: 'password',
+      server: 'smtp.example.com'
+    },
     database: {
       driver: 'sqlite',
       host: 'localhost',
@@ -185,7 +184,36 @@ html
     "jade": "^1.11.0"
   }
 }`
+    },
+  'db_model': `module.exports = (options) => {
+  var database = options.database;
+  var Sequelize = database.Sequelize;
+  var db = database.database;
+
+  var ${module_name.capitalize()} = db.define('${module_name.pluralize()}', {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    created_at: {
+      type: Sequelize.DATE,
+      default: new Date
+    },
+    updated_at: {
+      type: Sequelize.DATE,
+      default: new Date
     }
+  }, {
+    freezeTableName: true
+  });
+
+  ${module_name.capitalize()}.sync().then(() => {
+  });
+
+  ${module_name.capitalize()}.role = '${module_name.capitalize()}';
+  return ${module_name.capitalize()};
+}`
   }
   return templates;
 }

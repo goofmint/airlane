@@ -1,0 +1,24 @@
+extends ../../views/layout
+block title
+  title contacts#new
+block body
+  h1 contacts#new
+  form.contact_form
+    div.hide.alert.message
+    div.form-group
+      label(for=companyName) Company name
+      input.form-control(type="text",placeholder="Your company name",name="companyName",value="会社名")
+    div.form-group
+      label(for=yourName) Your name
+      input.form-control(type="text",placeholder="Your name",name="name",value="名前 太郎")
+    div.form-group
+      label(for=email) Email address
+      input.form-control(type="email",placeholder="Your email addoress",name="email",value="atsushi@moongift.jp")
+    div.form-group
+      label(for=body) Body
+      textarea.form-control(placeholder="Contact body",name="body",rows=10) 要件をここに書きます。
+        改行も入れます。
+        改行も入れます。
+    button.btn.btn-default(type="submit") Submit
+block script
+  script(src="/contacts/app.min.js")

@@ -23,21 +23,20 @@ var NedbStore = require('connect-nedb-session')(session);
 var target_dir = fs.realpathSync('./');
 var config = require(target_dir + '/config')[process.env.NODE_ENV];
 var database = require('./libs/database')(target_dir);
+var mailer = require('./libs/mailer')(target_dir);
 var common = require('./libs/common');
 var Modules = require('./modules');
 var methodOverride = require('method-override');
 
-var modules = new Modules({ database: database });
-modules.getModules(target_dir).then(function () {
-  console.log("Module loaded.");
+var modules = new Modules({ database: database, mailer: mailer });
+modules.getModules(target_dir).then(function (module) {
+  app.airlane = {
+    modules: module
+  };
 }, function (e) {
   console.error(e);
   process.exit(1);
 });
-
-app.airlane = {
-  modules: modules.modules
-};
 
 // =======================
 // configuration
@@ -50,7 +49,6 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.use(methodOverride(function (req, res) {
-  console.log('req.body', req.body);
   if (req.body && _typeof(req.body) === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
     var method = req.body._method;
@@ -79,7 +77,7 @@ app.use(session({
 // routes
 // =======================
 
-var addRouter = function addRouter(app, path) {
+var addRouter = function addRouter(app, path, base_path) {
   fs.readdir(path, function (error, files) {
     for (var i in files) {
       var dir = files[i];
@@ -89,7 +87,7 @@ var addRouter = function addRouter(app, path) {
 
       if (fs.existsSync(path + '/' + dir + '/index.js')) {
         var lib = require(path + '/' + dir);
-        var url_path = path.replace(__dirname + '/app', "") + ('/' + dir);
+        var url_path = path.replace(base_path, "") + ('/' + dir);
         console.log("Add rountes", url_path);
         app.use('' + url_path, lib.router);
         if (fs.existsSync(path + '/' + dir + '/public')) {
@@ -97,7 +95,7 @@ var addRouter = function addRouter(app, path) {
           app.use(url_path + '/', _express2.default.static(path + '/' + dir + '/public'));
         }
       }
-      addRouter(app, path + '/' + dir);
+      addRouter(app, path + '/' + dir, base_path);
     }
   });
 };
@@ -107,7 +105,7 @@ var addRouter = function addRouter(app, path) {
 app.use('/', require(target_dir + '/routes').router);
 app.use('/', _express2.default.static(target_dir + '/routes/public'));
 
-addRouter(app, target_dir + '/routes');
+addRouter(app, target_dir + '/routes', target_dir + '/routes');
 
 // =======================
 // start the server

@@ -16,7 +16,7 @@ var templates = require('./templates')(app_name, true);
 var questions = [];
 var promises = [];
 
-var paths = ['tmp', 'modules', 'config.js', 'package.json', 'routes/index.js', 'routes/controller.js', 'routes/public/app.js', 'routes/public/app.css', 'routes/views/index.jade', 'routes/views/new.jade', 'routes/views/edit.jade'];
+var paths = ['tmp', 'modules', 'config.js', 'package.json', 'routes/index.js', 'routes/controller.js', 'routes/public/app.js', 'routes/public/app.css', 'routes/views/layout.jade', 'routes/views/index.jade', 'routes/views/new.jade', 'routes/views/edit.jade'];
 for (var i in paths) {
   promises.push(new Promise((res, rej) => {
     var filename = paths[i];

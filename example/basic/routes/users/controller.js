@@ -25,6 +25,11 @@
       next();
     }
     
+    // GET /
+    index(req, res, next) {
+      res.render('index'); 
+    }
+    
     // GET /new
     new(req, res, next) {
       res.render('new'); 
