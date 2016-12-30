@@ -60,6 +60,10 @@ gulp.task('rework', watchify( watchify => {
 }));
 
 gulp.task('test', () => {
+  global.chai = require('chai');
+  global.jsdom = require('jsdom');
+  global.request = require('supertest');
+  global.app      = require('express')();
   gulp
     .src(['!**/node_modules/**/*.js', '**/test/*.js'], {read: false})
     .pipe(mocha({reporter: 'nyan'}));

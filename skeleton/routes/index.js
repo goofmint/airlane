@@ -6,7 +6,7 @@ module.exports = module => {
   /*
     Database module
     module.database.Sequelize
-    module.database.db
+    module.database.Db
     
     Mailer module
     module.mailer.nodemailer,

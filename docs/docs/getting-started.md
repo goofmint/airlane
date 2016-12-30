@@ -16,6 +16,7 @@ After installing, you can make a project.
 cd /path/to/some/where
 airlane init hello
 cd hello
+npm install
 ```
 
 Airlane generates some files and directory.
@@ -49,7 +50,6 @@ $ tree .
 Let's launch the server!
 
 ```
-npm install
 airlane serve
 ```
 

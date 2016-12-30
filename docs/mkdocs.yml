@@ -4,3 +4,4 @@ pages:
 - 'Top': 'index.md'
 - 'Getting started': 'getting-started.md'
 - 'Update view': 'update-view.md'
+- 'Database': 'database.md'

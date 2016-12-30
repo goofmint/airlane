@@ -1,0 +1,69 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Have a pleasant flight!\n\n\nAirlane is fast and confortable developing enveronments for Node.js. You don't need to prepare Gulp, Browserify, Nodemon, Babel, Express, Mocha...and sort of things. You can start development with Node.js quickly!\n\n\nFeatures\n\n\n\n\nDatabase with O/R mapper (\nSequelize\n)\n\n\nEach routing has own View, Routing and Controller\n\n\nCode generator\n\n\nProject initializer/Controller/Model(DB/Mailer)\n\n\nSupport ES2015\n\n\nServer side/Web Browser\n\n\nDevelopment server\n\n\nChrome inspector\n\n\nAuto reload/Auto re-deploy\n\n\nWatchify\n\n\nClient side JavaScript/Stylesheet\n\n\nTest\n\n\nMocha\n\n\n\n\nGetting started",
+            "title": "Top"
+        },
+        {
+            "location": "/#have-a-pleasant-flight",
+            "text": "Airlane is fast and confortable developing enveronments for Node.js. You don't need to prepare Gulp, Browserify, Nodemon, Babel, Express, Mocha...and sort of things. You can start development with Node.js quickly!",
+            "title": "Have a pleasant flight!"
+        },
+        {
+            "location": "/#features",
+            "text": "Database with O/R mapper ( Sequelize )  Each routing has own View, Routing and Controller  Code generator  Project initializer/Controller/Model(DB/Mailer)  Support ES2015  Server side/Web Browser  Development server  Chrome inspector  Auto reload/Auto re-deploy  Watchify  Client side JavaScript/Stylesheet  Test  Mocha",
+            "title": "Features"
+        },
+        {
+            "location": "/#getting-started",
+            "text": "",
+            "title": "Getting started"
+        },
+        {
+            "location": "/getting-started/",
+            "text": "Let's aboard!\n\n\nInstall airlane\n\n\nYou can install the airlane with npm command below.\n\n\nnpm install airlane -g\n\n\n\n\nGenerate project\n\n\nAfter installing, you can make a project.\n\n\ncd /path/to/some/where\nairlane init hello\ncd hello\n\n\n\n\nAirlane generates some files and directory.\n\n\n$ tree .\n.\n\u251c\u2500\u2500 config.js\n\u251c\u2500\u2500 modules\n\u251c\u2500\u2500 package.json\n\u251c\u2500\u2500 routes\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 controller.js\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 index.js\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 public\n\u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u251c\u2500\u2500 app.css\n\u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2514\u2500\u2500 app.js\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 test\n\u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2514\u2500\u2500 controller_test.js\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 views\n\u2502\u00a0\u00a0     \u251c\u2500\u2500 edit.jade\n\u2502\u00a0\u00a0     \u251c\u2500\u2500 index.jade\n\u2502\u00a0\u00a0     \u251c\u2500\u2500 layout.jade\n\u2502\u00a0\u00a0     \u2514\u2500\u2500 new.jade\n\u2514\u2500\u2500 tmp\n\n6 directories, 11 files\n\n\n\n\nLaunch server\n\n\nLet's launch the server!\n\n\nnpm install\nairlane serve\n\n\n\n\nNow, you can access to the web server \nhttp://localhost:8080/\n.\n\n\n\n\nConglaturations! You were aboarding Airlane!\n\n\nNext is \nupdate view",
+            "title": "Getting started"
+        },
+        {
+            "location": "/getting-started/#lets-aboard",
+            "text": "",
+            "title": "Let's aboard!"
+        },
+        {
+            "location": "/getting-started/#install-airlane",
+            "text": "You can install the airlane with npm command below.  npm install airlane -g",
+            "title": "Install airlane"
+        },
+        {
+            "location": "/getting-started/#generate-project",
+            "text": "After installing, you can make a project.  cd /path/to/some/where\nairlane init hello\ncd hello  Airlane generates some files and directory.  $ tree .\n.\n\u251c\u2500\u2500 config.js\n\u251c\u2500\u2500 modules\n\u251c\u2500\u2500 package.json\n\u251c\u2500\u2500 routes\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 controller.js\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 index.js\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 public\n\u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u251c\u2500\u2500 app.css\n\u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2514\u2500\u2500 app.js\n\u2502\u00a0\u00a0 \u251c\u2500\u2500 test\n\u2502\u00a0\u00a0 \u2502\u00a0\u00a0 \u2514\u2500\u2500 controller_test.js\n\u2502\u00a0\u00a0 \u2514\u2500\u2500 views\n\u2502\u00a0\u00a0     \u251c\u2500\u2500 edit.jade\n\u2502\u00a0\u00a0     \u251c\u2500\u2500 index.jade\n\u2502\u00a0\u00a0     \u251c\u2500\u2500 layout.jade\n\u2502\u00a0\u00a0     \u2514\u2500\u2500 new.jade\n\u2514\u2500\u2500 tmp\n\n6 directories, 11 files",
+            "title": "Generate project"
+        },
+        {
+            "location": "/getting-started/#launch-server",
+            "text": "Let's launch the server!  npm install\nairlane serve  Now, you can access to the web server  http://localhost:8080/ .   Conglaturations! You were aboarding Airlane!  Next is  update view",
+            "title": "Launch server"
+        },
+        {
+            "location": "/update-view/",
+            "text": "Update view\n\n\nAirlane has supported jade template (It's default, you can change template engine you like). Your index file localed to \nhello/routes/views/index.jade\n.\n\n\nEdit index.jade, Web browser reloads view automatically.\n\n\n\n\nAuto re-deply\n\n\nWhen you edit server-side JavaScript code, Airlane immediately reflects it. You don't need to restart server by hands.\n\n\nAuto generate client-side JavaScript and Stylesheet\n\n\nAirlane supports ECMA2016 JavaScript on Web browser. It's convert to ECMA5 by babel. And Airlane provides browserify, so you can use npm module in your client JavaScript code. Normarl JavaScript code is generated by Airlane automatically. Your JavaScript locates to \nhello/routes/public/app.js\n, and converted file locales to \nhello/routes/public/app.min.js\n. This JavaScript file is loaded by HTML file in \nhello/routes/views/layout.jade\n, so you don't need care about it.\n\n\nAirlane supports load stylesheet file in npm package, too. It's limited feature, but it supports bootstrap. If you want to use bootstrap, execute command first.\n\n\nnpm install bootstrap --save\n\n\n\n\nAnd you write a line in your stylesheet file located \nhello/routes/public/app.css\n\n\n@import bootstrap;\n\n\n\n\nYour stylesheet file \nhello/routes/public/app.min.css\n will update soon with bootstrap stylesheet.",
+            "title": "Update view"
+        },
+        {
+            "location": "/update-view/#update-view",
+            "text": "Airlane has supported jade template (It's default, you can change template engine you like). Your index file localed to  hello/routes/views/index.jade .  Edit index.jade, Web browser reloads view automatically.",
+            "title": "Update view"
+        },
+        {
+            "location": "/update-view/#auto-re-deply",
+            "text": "When you edit server-side JavaScript code, Airlane immediately reflects it. You don't need to restart server by hands.",
+            "title": "Auto re-deply"
+        },
+        {
+            "location": "/update-view/#auto-generate-client-side-javascript-and-stylesheet",
+            "text": "Airlane supports ECMA2016 JavaScript on Web browser. It's convert to ECMA5 by babel. And Airlane provides browserify, so you can use npm module in your client JavaScript code. Normarl JavaScript code is generated by Airlane automatically. Your JavaScript locates to  hello/routes/public/app.js , and converted file locales to  hello/routes/public/app.min.js . This JavaScript file is loaded by HTML file in  hello/routes/views/layout.jade , so you don't need care about it.  Airlane supports load stylesheet file in npm package, too. It's limited feature, but it supports bootstrap. If you want to use bootstrap, execute command first.  npm install bootstrap --save  And you write a line in your stylesheet file located  hello/routes/public/app.css  @import bootstrap;  Your stylesheet file  hello/routes/public/app.min.css  will update soon with bootstrap stylesheet.",
+            "title": "Auto generate client-side JavaScript and Stylesheet"
+        }
+    ]
+}
