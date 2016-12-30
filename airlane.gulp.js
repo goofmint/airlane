@@ -9,6 +9,7 @@ let rework = require('gulp-rework');
 let reworkNPM = require('rework-npm');
 let babel = require('gulp-babel');
 const mocha = require('gulp-mocha');
+const path  = require('path');
 
 gulp.task('serve', () => {
   livereload.listen();

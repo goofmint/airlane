@@ -8,6 +8,12 @@ module.exports = {
       username: 'username',
       password: 'password',
       database: 'todo_development'
+    },
+    smtp: {
+      secure: true,
+      user: 'user',
+      password: 'password',
+      server: 'smtp.example.com'
     }
   }
 }

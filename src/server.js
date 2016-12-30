@@ -13,7 +13,13 @@ var fs                = require('fs-extra');
 var session           = require('express-session');
 var NedbStore         = require('connect-nedb-session')(session)
 let target_dir        = fs.realpathSync('./');
+
+require('set-node-path')(
+  path.resolve(`${target_dir}/node_modules`)
+);
+
 var config            = require(`${target_dir}/config`)[process.env.NODE_ENV];
+
 var database          = require('./libs/database')(target_dir);
 var mailer            = require('./libs/mailer')(target_dir);
 var common            = require('./libs/common');

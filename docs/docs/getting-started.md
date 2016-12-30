@@ -49,6 +49,7 @@ $ tree .
 Let's launch the server!
 
 ```
+npm install
 airlane serve
 ```
 
