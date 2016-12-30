@@ -1,4 +1,0 @@
-#!/usr/bin/env node
-var gulp = require('../airlane.gulp');
-
-gulp.start(['serve', 'watch']);
