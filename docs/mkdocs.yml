@@ -1,0 +1,5 @@
+site_name: Airlane
+theme: 'readthedocs'
+pages:
+- 'Top': 'index.md'
+- 'Getting started': 'getting-started.md'

@@ -23,6 +23,8 @@ Airlane is the fast and confortable development environments with Node.js and Ex
 - Watchify
   - Client side JavaScript
   - Client side Stylesheet
+- Test
+  - Including Mocha
 
 ## Install
 
