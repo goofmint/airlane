@@ -1,13 +1,9 @@
-var chai = require('chai')
 var should = chai.should();
 var expect = chai.expect;
-var jsdom = require('jsdom');
-var request = require('supertest');
-var router = require('../index');
-var app = require('express')();
+var router = require('../index')();
 var config = require('${"../".repeat(module_name.split("/").length + 1)}config');
 
-app.use('/', router.router);
+app.use('/', router);
 app.set('view engine', config.test.view_engine);
 
 describe('Test ${controllerName} Controller', () => {

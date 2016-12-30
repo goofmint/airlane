@@ -5,3 +5,5 @@ pages:
 - 'Getting started': 'getting-started.md'
 - 'Update view': 'update-view.md'
 - 'Database': 'database.md'
+- 'Test': 'test.md'
+- 'Add routing': 'routing.md'

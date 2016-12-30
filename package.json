@@ -1,6 +1,6 @@
 {
   "name": "airlane",
-  "version": "0.1.3",
+  "version": "0.1.5",
   "description": "airlane is micro service framework with express.",
   "main": "gulpfile.babel.js",
   "scripts": {
