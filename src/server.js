@@ -20,22 +20,8 @@ require('set-node-path')(
 
 var config            = require(`${target_dir}/config`)[process.env.NODE_ENV];
 
-var database          = require('./libs/database')(target_dir);
-var mailer            = require('./libs/mailer')(target_dir);
 var common            = require('./libs/common');
-var Modules           = require('./modules');
 var methodOverride    = require('method-override');
-
-var modules = new Modules({database: database, mailer: mailer});
-modules.getModules(target_dir).then((module) => {
-  app.airlane = {
-    modules: module
-  };
-}, (e) => {
-  console.error(e);
-  process.exit(1);
-});
-
 
 // =======================
 // configuration
@@ -65,19 +51,18 @@ if (config.view_engine)
 app.set('views', __dirname + '/views');
 
 app.use(session({
-  secret: config.session_key,
+  secret: config.session.key,
   resave: false,
   saveUninitialized: true,
   store: new NedbStore({
-    filename: path.join(target_dir, '/tmp/session.nedb')
+    filename: path.join(target_dir, config.session.path)
   })
 }));
 
 // =======================
 // routes
 // =======================
-
-var addRouter = (app, path, base_path) => {
+var addRouter = (app, module, path, base_path) => {
   fs.readdir(path, (error, files) => {
     for (var i in files) {
       let dir = files[i];
@@ -89,26 +74,35 @@ var addRouter = (app, path, base_path) => {
         continue;
       
       if (fs.existsSync(`${path}/${dir}/index.js`)) {
-        var lib = require(`${path}/${dir}`);
+        var router = require(`${path}/${dir}`)(module);
         let url_path = path.replace(base_path, "") + `/${dir}`;
         console.log("Add rountes", url_path)
-        app.use(`${url_path}`, lib.router);
+        app.use(`${url_path}`, router);
         if (fs.existsSync(`${path}/${dir}/public`)) {
           console.log("Public directory", `${path}/${dir}/public`, ". Access from browser", url_path);
           app.use(`${url_path}/`, express.static(`${path}/${dir}/public`));
         }
       }
-      addRouter(app, `${path}/${dir}`, base_path);
+      addRouter(app, module, `${path}/${dir}`, base_path);
     }
   });
 }
+
 // Root access.
+var Modules           = require('./modules');
+var database          = require('./libs/database')(target_dir);
+var mailer            = require('./libs/mailer')(target_dir);
+var modules = new Modules({database: database, mailer: mailer});
+modules.getModules(target_dir).then((module) => {
+  app.use('/', require(`${target_dir}/routes`)(module));
+  app.use('/', express.static(`${target_dir}/routes/public`));
+  let base_path = `${target_dir}/routes`;
+  addRouter(app, module, base_path, base_path);
+}, (e) => {
+  console.error(e);
+  process.exit(1);
+});
 
-
-app.use('/', require(`${target_dir}/routes`).router);
-app.use('/', express.static(`${target_dir}/routes/public`));
-
-addRouter(app, `${target_dir}/routes`, `${target_dir}/routes`);
 
 // =======================
 // start the server

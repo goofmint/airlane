@@ -1,6 +1,9 @@
 module.exports = {
   development: {
-    session_key: '${randomstring.generate(30)}',
+    session: {
+      key: '${randomstring.generate(30)}',
+      path: '/tmp/session.nedb'
+    },
     view_engine: 'jade',
     smtp: {
       secure: true,
@@ -15,7 +18,10 @@ module.exports = {
     }
   },
   test: {
-    session_key: '${randomstring.generate(30)}',
+    session: {
+      key: '${randomstring.generate(30)}',
+      path: '/tmp/session.nedb'
+    },
     view_engine: 'jade',
     smtp: {
       secure: true,
@@ -30,7 +36,10 @@ module.exports = {
     }
   },
   production: {
-    session_key: '${randomstring.generate(30)}',
+    session: {
+      key: '${randomstring.generate(30)}',
+      path: '/tmp/session.nedb'
+    },
     view_engine: 'jade',
     smtp: {
       secure: true,

@@ -26,9 +26,7 @@ module.exports = (options) => {
 
   Task.sync({force: false}).then(() => {
   });
-  
-  
-  
-  Task.role = 'Table';
+
+  Task.role = 'Task';
   return Task;
 }

@@ -23,16 +23,10 @@ gulp.task('serve', () => {
     },
     verbose: true,
     stdout: true
-  }).on('readable', function() {
-    this.stdout.on('data', function(chunk) {
-      if (/^application\ started/.test(chunk)) {
-        livereload.reload();
-      }
-      process.stdout.write(chunk);
-    });
-    this.stderr.on('data', function(chunk) {
-      process.stderr.write(chunk);
-    });
+  }).on('start', function() {
+    setTimeout(function () {
+      livereload.reload();
+    }, 1000);
   });
 })
 
@@ -51,6 +45,7 @@ gulp.task('watchify', watchify( watchify => {
       extname: '.min.js'
     }))
     .pipe(gulp.dest('./'))
+  livereload.reload();
 }));
 
 gulp.task('rework', watchify( watchify => {
@@ -61,6 +56,7 @@ gulp.task('rework', watchify( watchify => {
       extname: '.min.css'
     }))
     .pipe(gulp.dest('./'))
+  livereload.reload();
 }));
 
 gulp.task('test', () => {

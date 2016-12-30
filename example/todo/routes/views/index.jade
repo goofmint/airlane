@@ -1,35 +1,30 @@
-doctype html
-html
-  head
-    title Todo App
-    meta(charset="utf-8")
-    meta(http-equiv="X-UA-Compatible", content="IE=edge")
-    link(rel="stylesheet", type="text/css", href="/app.min.css")
-  body
-    div.container
-      div.row
-        div.col-md-8.col-md-offset-2
-          h1 Todo App
-          form(action="/", method="POST")
-            div.form-group
-              label(for=inputTask) Task name
-              input.form-control(name="name", type="text",placeholder="Study airlane")
-            button.btn.btn-default(type=submit) Register task
-      div.row
-        div.col-md-8.col-md-offset-2
-          if tasks.length < 2
-            h2 #{tasks.length} Task
-          else
-            h2 #{tasks.length} Tasks
-            
-          each task in tasks
-            div.row
-              div.col-md-3.col-md-offset-1
-                div #{task.name} 
-              div.col-md-2
-                span
-                  form(action="/#{task.id}",method="POST")
-                    input.hidden(name="_method",value="DELETE")
-                    button.btn.btn-ms.btn-default done
-    script(src="/app.min.js")
-  
+extends ./layout
+block title
+  title Todo app
+block body
+  div.container
+    div.row
+      div.col-md-8.col-md-offset-2
+        h1 Todo App
+        form(action="/", method="POST")
+          div.form-group
+            label(for=inputTask) Task name
+            input.form-control(name="name", type="text",placeholder="Study airlane")
+          button.btn.btn-default(type=submit) Register task
+    div.row
+      div.col-md-8.col-md-offset-2
+        if tasks.length < 2
+          h2 #{tasks.length} Task
+        else
+          h2 #{tasks.length} Tasks
+          
+        each task in tasks
+          div.row
+            div.col-md-3.col-md-offset-1
+              div #{task.name} 
+            div.col-md-2
+              span
+                form(action="/#{task.id}",method="POST")
+                  input.hidden(name="_method",value="DELETE")
+                  button.btn.btn-ms.btn-default done
+

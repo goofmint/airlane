@@ -14,7 +14,7 @@ module.exports = ((target_dir) => {
   }
   var transporter = nodemailer.createTransport(uri);
   return {
-    mailer: nodemailer,
+    nodemailer: nodemailer,
     transporter: transporter
   };
 });

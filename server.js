@@ -26,21 +26,8 @@ require('set-node-path')(path.resolve(target_dir + '/node_modules'));
 
 var config = require(target_dir + '/config')[process.env.NODE_ENV];
 
-var database = require('./libs/database')(target_dir);
-var mailer = require('./libs/mailer')(target_dir);
 var common = require('./libs/common');
-var Modules = require('./modules');
 var methodOverride = require('method-override');
-
-var modules = new Modules({ database: database, mailer: mailer });
-modules.getModules(target_dir).then(function (module) {
-  app.airlane = {
-    modules: module
-  };
-}, function (e) {
-  console.error(e);
-  process.exit(1);
-});
 
 // =======================
 // configuration
@@ -69,19 +56,18 @@ if (config.view_engine) app.set('view engine', config.view_engine);
 app.set('views', __dirname + '/views');
 
 app.use(session({
-  secret: config.session_key,
+  secret: config.session.key,
   resave: false,
   saveUninitialized: true,
   store: new NedbStore({
-    filename: path.join(target_dir, '/tmp/session.nedb')
+    filename: path.join(target_dir, config.session.path)
   })
 }));
 
 // =======================
 // routes
 // =======================
-
-var addRouter = function addRouter(app, path, base_path) {
+var addRouter = function addRouter(app, module, path, base_path) {
   fs.readdir(path, function (error, files) {
     for (var i in files) {
       var dir = files[i];
@@ -90,26 +76,34 @@ var addRouter = function addRouter(app, path, base_path) {
       if (['public', 'views'].indexOf(dir) > 0) continue;
 
       if (fs.existsSync(path + '/' + dir + '/index.js')) {
-        var lib = require(path + '/' + dir);
+        var router = require(path + '/' + dir)(module);
         var url_path = path.replace(base_path, "") + ('/' + dir);
         console.log("Add rountes", url_path);
-        app.use('' + url_path, lib.router);
+        app.use('' + url_path, router);
         if (fs.existsSync(path + '/' + dir + '/public')) {
           console.log("Public directory", path + '/' + dir + '/public', ". Access from browser", url_path);
           app.use(url_path + '/', _express2.default.static(path + '/' + dir + '/public'));
         }
       }
-      addRouter(app, path + '/' + dir, base_path);
+      addRouter(app, module, path + '/' + dir, base_path);
     }
   });
 };
+
 // Root access.
-
-
-app.use('/', require(target_dir + '/routes').router);
-app.use('/', _express2.default.static(target_dir + '/routes/public'));
-
-addRouter(app, target_dir + '/routes', target_dir + '/routes');
+var Modules = require('./modules');
+var database = require('./libs/database')(target_dir);
+var mailer = require('./libs/mailer')(target_dir);
+var modules = new Modules({ database: database, mailer: mailer });
+modules.getModules(target_dir).then(function (module) {
+  app.use('/', require(target_dir + '/routes')(module));
+  app.use('/', _express2.default.static(target_dir + '/routes/public'));
+  var base_path = target_dir + '/routes';
+  addRouter(app, module, base_path, base_path);
+}, function (e) {
+  console.error(e);
+  process.exit(1);
+});
 
 // =======================
 // start the server

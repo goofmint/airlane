@@ -23,8 +23,8 @@ class TodoController {
   }
   
   // GET /
-  index(req, res, next) {
-    let Task = req.app.airlane.modules.Db.Task;
+  index(req, res, Db, next) {
+    let Task = Db.Task;
     Task.findAll()
       .then( tasks => {
         res.render('index', {tasks: tasks}); 
@@ -37,8 +37,8 @@ class TodoController {
   }
   
   // POST /
-  create(req, res, next) {
-    let Task = req.app.airlane.modules.Db.Task;
+  create(req, res, Db, next) {
+    let Task = Db.Task;
     Task.create({
       name: req.body.name
     })
@@ -57,8 +57,8 @@ class TodoController {
   }
   
   // DELETE /:id
-  destroy(req, res, next) {
-    let Task = req.app.airlane.modules.Db.Task;
+  destroy(req, res, Db, next) {
+    let Task = Db.Task;
     Task.findById(req.params.id)
       .then( task => {
         task.destroy()

@@ -55,4 +55,8 @@ airlane serve
 
 Now, you can access to the web server **[http://localhost:8080/](http://localhost:8080/)**.
 
+![](/images/first-view.png)
 
+Conglaturations! You were aboarding Airlane!
+
+Next is [update view](/update-view)
