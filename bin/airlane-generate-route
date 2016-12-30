@@ -2,16 +2,10 @@
 let inquirer = require("inquirer");
 var fs = require('fs-extra');
 require('../libs/common');
+let util = require('./util');
 
-/*
-var program = require('commander');
-program
-  .version('0.0.1')
-  .parse(process.argv);
-*/
 let target_dir = fs.realpathSync('./');
 let module_name = process.argv[2];
-var templates = require('./templates')(module_name);
 
 // Check directory
 if (module_name.slice(-1) != '/') {
@@ -20,66 +14,33 @@ if (module_name.slice(-1) != '/') {
 
 var path = `${target_dir}/routes/${module_name}`
 
-var questions = [];
-var promises = [];
+let paths = ['routes/index.js', 'routes/controller.js', 'routes/public/app.js', 'routes/public/app.css', 'routes/views/new.jade', 'routes/views/index.jade', 'routes/views/layout.jade', 'routes/views/edit.jade', 'routes/test/controller_test.js'];
 
-promises.push(new Promise((res, rej) => {
-  fs.access(path, 'wx', (err, fd) => {
-    if (err == null) {
-      return res({
-        type: 'confirm',
-        name: 'overwrite',
-        message: `Directory ${module_name} exist. Could you overwrite it?`,
-        default: true
-      });
-    }
-    return res(null)
-  });
-}));
-
-let paths = ['index.js', 'controller.js', 'public/app.js', 'public/app.css', 'views/new.jade', 'views/index.jade', 'views/layout.jade', 'views/edit.jade'];
-for (var i in paths) {
-  promises.push(new Promise((res, rej) => {
-    var filename = paths[i];
-    fs.access(`${path}${filename}`, 'wx', (err, fd) => {
-      if (err == null) {
-        return res({
-          type: 'confirm',
-          name: `overwrite_${filename}`,
-          message: `Directory ${module_name}${filename} exist. Could you overwrite it?`,
-          default: true
-        });
-      }
-      return res(null)
-    });
-  }));
-}
-
-Promise.all(promises).then((values) => {
-  questions = values.filter(function(question) {
-    return question != null;
-  });
-  
-  if (questions.length === 0) {
-    return createBase();
-  }
-  inquirer.prompt(questions).then((answers) => {
-    if (!answers.overwrite) {
-      process.exit(1);
-    }
+require('./templates')(module_name, false)
+  .then(results => {
+    templates = results;
+    var promises = util.checkFile(path, paths.map(path => path.replace(/^routes\//, "")));
+    return util.doAsk(promises);
+  }, error => {
+    console.log(error)
+    process.exit(1);
+  })
+  .then( answers => {
     createBase(answers);
-  });
-});
-
+  }, error => {
+    console.log(error);
+    process.exit(1);
+  })
 
 createBase = (answers = {}) => {
   fs.mkdirsSync(path);
   fs.mkdirsSync(`${path}views`);
   fs.mkdirsSync(`${path}public`);
+  fs.mkdirsSync(`${path}test`);
   for (var i in paths) {
     var filename = paths[i];
     if (answers[`overwrite_${filename}`] !== false) {
-      fs.writeFileSync(`${path}${filename}`, templates[filename]);
+      fs.writeFileSync(`${path}${filename.replace(/^routes\//, "")}`, templates[filename]);
     }
   }
 }

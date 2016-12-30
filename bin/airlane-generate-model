@@ -2,54 +2,37 @@
 let inquirer = require("inquirer");
 var fs = require('fs-extra');
 require('../libs/common');
+let util = require('./util');
 
 let target_dir = fs.realpathSync('./');
-let model_name = process.argv[2];
-var templates = require('./templates')(model_name);
+let type_name = process.argv[2];
+let model_name = process.argv[3];
 
 // Check directory
 
-var db_dir = `${target_dir}/modules/db/`;
-var path = `${db_dir}${model_name}.js`
+var dir = `${target_dir}/modules/${type_name}/`;
+var path = `${model_name}.js`
 
-var questions = [];
-var promises = [];
-
-promises.push(new Promise((res, rej) => {
-  fs.access(path, 'wx', (err, fd) => {
-    if (err == null) {
-      return res({
-        type: 'confirm',
-        name: 'overwrite',
-        message: `File ${model_name} exist. Could you overwrite it?`,
-        default: true
-      });
-    }
-    return res(null)
-  });
-}));
-
-Promise.all(promises).then((values) => {
-  questions = values.filter(function(question) {
-    return question != null;
-  });
-  
-  if (questions.length === 0) {
-    return createBase();
-  }
-  inquirer.prompt(questions).then((answers) => {
-    if (!answers.overwrite) {
-      process.exit(1);
-    }
+require('./templates')(model_name, false)
+  .then(results => {
+    templates = results;
+    var promises = util.checkFile(dir, [path]);
+    return util.doAsk(promises);
+  }, error => {
+    console.log(error)
+    process.exit(1);
+  })
+  .then( answers => {
     createBase(answers);
-  });
-});
-
+  }, error => {
+    console.log(error);
+    process.exit(1);
+  })
 
 createBase = (answers = {}) => {
-  if (answers[`overwrite`] !== false) {
-    fs.mkdirsSync(db_dir);
-    fs.writeFileSync(`${path}`, templates['db_model']);
-    console.log(`${path} created.`)
+  if (answers[`overwrite_${path}`] !== false) {
+    fs.mkdirsSync(dir);
+    fs.writeFileSync(`${dir}${path}`, templates[`modules/${type_name}.js`]);
+    console.log(`${dir}${path} created.`)
   }
 }

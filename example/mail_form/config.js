@@ -12,5 +12,8 @@ module.exports = {
       host: 'localhost',
       database: 'mail_form_development'
     }
+  },
+  test: {
+    view_engine: 'jade'
   }
 }

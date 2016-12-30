@@ -5,5 +5,5 @@ program
   .version('0.0.1')
   .command('init', 'Generate init code')
   .command('route [name]', 'Generate route code.')
-  .command('model [name]', 'Generate DB model code.')
+  .command('model [name]', 'Generate model code. Currenty support db or mailer.')
   .parse(process.argv);

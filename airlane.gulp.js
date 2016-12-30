@@ -8,6 +8,7 @@ let uglify = require("gulp-uglify");
 let rework = require('gulp-rework');
 let reworkNPM = require('rework-npm');
 let babel = require('gulp-babel');
+const mocha = require('gulp-mocha');
 
 gulp.task('serve', () => {
   livereload.listen();
@@ -61,8 +62,14 @@ gulp.task('rework', watchify( watchify => {
     .pipe(gulp.dest('./'))
 }));
 
+gulp.task('test', () => {
+  gulp
+    .src(['!**/node_modules/**/*.js', '**/test/*.js'], {read: false})
+    .pipe(mocha({reporter: 'nyan'}));
+});
+
 gulp.task('watch', ['watchify', 'rework'], () => {
   gulp.watch("**/public/app.css", ['rework']);  
 });
 
-gulp.start(['serve', 'watch']);
+module.exports = gulp;
