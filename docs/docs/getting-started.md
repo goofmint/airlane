@@ -51,3 +51,7 @@ Let's launch the server!
 ```
 airlane serve
 ```
+
+Now, you can access to the web server **[http://localhost:8080/](http://localhost:8080/)**.
+
+

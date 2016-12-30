@@ -33,6 +33,7 @@
     "randomstring": "^1.1.5",
     "rework-npm": "^1.0.0",
     "rework-plugin-at2x": "^1.0.2",
+    "sequelize": "^3.28.0",
     "supertest": "^2.0.1",
     "watchify": "^3.8.0"
   },
