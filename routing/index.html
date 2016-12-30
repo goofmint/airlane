@@ -8,7 +8,7 @@
   
   
   
-  <title>Getting started - Airlane</title>
+  <title>Add routing - Airlane</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -23,9 +23,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Getting started";
-    var mkdocs_page_input_path = "getting-started.md";
-    var mkdocs_page_url = "/getting-started/";
+    var mkdocs_page_name = "Add routing";
+    var mkdocs_page_input_path = "routing.md";
+    var mkdocs_page_url = "/routing/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -62,21 +62,8 @@
 <li>
           
             <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Getting started</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#lets-aboard">Let's aboard!</a></li>
-                
-                    <li><a class="toctree-l4" href="#install-airlane">Install airlane</a></li>
-                
-                    <li><a class="toctree-l4" href="#generate-project">Generate project</a></li>
-                
-                    <li><a class="toctree-l4" href="#launch-server">Launch server</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../getting-started/">Getting started</a>
         
     </li>
 <li>
@@ -103,8 +90,17 @@
 <li>
           
             <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../routing/">Add routing</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Add routing</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#add-routing">Add routing</a></li>
+                
+                    <li><a class="toctree-l4" href="#access-client-side-javascript-and-stylesheet-from-web-browser">Access client side JavaScript and stylesheet from Web browser</a></li>
+                
+            
+            </ul>
         
     </li>
 <li>
@@ -131,7 +127,7 @@
     
       
     
-    <li>Getting started</li>
+    <li>Add routing</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -141,53 +137,40 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="lets-aboard">Let's aboard!</h1>
-<h2 id="install-airlane">Install airlane</h2>
-<p>You can install the airlane with npm command below.</p>
-<pre><code>npm install airlane -g
+                <h1 id="add-routing">Add routing</h1>
+<p>When you want to add new routing, you can use generate command.</p>
+<pre><code>airlane generate route users
 </code></pre>
 
-<h2 id="generate-project">Generate project</h2>
-<p>After installing, you can make a project.</p>
-<pre><code>cd /path/to/some/where
-airlane init hello
-cd hello
-npm install
+<p>This command generates files under <em>routes/users</em> directory.</p>
+<pre><code>$ tree routes/users/
+routes/users/
+├── controller.js
+├── index.js
+├── public
+│   ├── app.css
+│   └── app.js
+├── test
+│   └── controller_test.js
+└── views
+    ├── edit.jade
+    ├── index.jade
+    ├── layout.jade
+    └── new.jade
 </code></pre>
 
-<p>Airlane generates some files and directory.</p>
-<pre><code>$ tree .
-.
-├── config.js
-├── modules
-├── package.json
-├── routes
-│   ├── controller.js
-│   ├── index.js
-│   ├── public
-│   │   ├── app.css
-│   │   └── app.js
-│   ├── test
-│   │   └── controller_test.js
-│   └── views
-│       ├── edit.jade
-│       ├── index.jade
-│       ├── layout.jade
-│       └── new.jade
-└── tmp
-
-6 directories, 11 files
+<p>It's almost same routes directory. Each directory has controller/router/JavaScript and Stylesheet/View and Test. Looks like micro service.</p>
+<p>After execute command, you have routing <em>http://localhost:8080/users/</em> with RESTful(GET/POST/PUT/DELETE).</p>
+<h2 id="access-client-side-javascript-and-stylesheet-from-web-browser">Access client side JavaScript and stylesheet from Web browser</h2>
+<p>If you want to access <em>routes/users/public/app.js</em> or <em>app.css</em> from web browser, you should write like below.</p>
+<ul>
+<li>/users/app.min.js</li>
+<li>/users/app.min.css</li>
+</ul>
+<p>Of cause <code>routes/users/views/layout.jade</code> has those lines.</p>
+<pre><code>link(rel=&quot;stylesheet&quot;, type=&quot;text/css&quot;, href=&quot;/users/app.min.css&quot;)
+script(src=&quot;/users/app.min.js&quot;)
 </code></pre>
-
-<h2 id="launch-server">Launch server</h2>
-<p>Let's launch the server!</p>
-<pre><code>airlane serve
-</code></pre>
-
-<p>Now, you can access to the web server <strong><a href="http://localhost:8080/">http://localhost:8080/</a></strong>.</p>
-<p><img alt="" src="../images/first-view.png" /></p>
-<p>Conglaturations! You were aboarding Airlane!</p>
-<p>Next is <a href="../update-view">update view</a></p>
               
             </div>
           </div>
@@ -195,10 +178,8 @@ npm install
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../update-view/" class="btn btn-neutral float-right" title="Update view">Next <span class="icon icon-circle-arrow-right"></span></a>
       
-      
-        <a href=".." class="btn btn-neutral" title="Top"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../test/" class="btn btn-neutral" title="Test"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -224,10 +205,8 @@ npm install
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../test/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
-      
-        <span style="margin-left: 15px"><a href="../update-view/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

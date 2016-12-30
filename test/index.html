@@ -8,7 +8,7 @@
   
   
   
-  <title>Getting started - Airlane</title>
+  <title>Test - Airlane</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -23,9 +23,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Getting started";
-    var mkdocs_page_input_path = "getting-started.md";
-    var mkdocs_page_url = "/getting-started/";
+    var mkdocs_page_name = "Test";
+    var mkdocs_page_input_path = "test.md";
+    var mkdocs_page_url = "/test/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -62,21 +62,8 @@
 <li>
           
             <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Getting started</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#lets-aboard">Let's aboard!</a></li>
-                
-                    <li><a class="toctree-l4" href="#install-airlane">Install airlane</a></li>
-                
-                    <li><a class="toctree-l4" href="#generate-project">Generate project</a></li>
-                
-                    <li><a class="toctree-l4" href="#launch-server">Launch server</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../getting-started/">Getting started</a>
         
     </li>
 <li>
@@ -96,8 +83,15 @@
 <li>
           
             <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../test/">Test</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Test</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#test-with-airlane">Test with Airlane</a></li>
+                
+            
+            </ul>
         
     </li>
 <li>
@@ -131,7 +125,7 @@
     
       
     
-    <li>Getting started</li>
+    <li>Test</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -141,53 +135,42 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="lets-aboard">Let's aboard!</h1>
-<h2 id="install-airlane">Install airlane</h2>
-<p>You can install the airlane with npm command below.</p>
-<pre><code>npm install airlane -g
+                <h1 id="test-with-airlane">Test with Airlane</h1>
+<p>Airlace includes unit test framework named <a href="https://mochajs.org">Mocha</a>. When you generated project code, you can start test soon.</p>
+<pre><code>airlane test
+ 3   -_-__,------,
+ 0   -_-__|  /\_/\ 
+ 0   -_-_~|_( ^ .^) 
+     -_-_ &quot;&quot;  &quot;&quot; 
+
+  3 passing (390ms)
 </code></pre>
 
-<h2 id="generate-project">Generate project</h2>
-<p>After installing, you can make a project.</p>
-<pre><code>cd /path/to/some/where
-airlane init hello
-cd hello
-npm install
-</code></pre>
-
-<p>Airlane generates some files and directory.</p>
-<pre><code>$ tree .
-.
-├── config.js
-├── modules
-├── package.json
-├── routes
-│   ├── controller.js
-│   ├── index.js
-│   ├── public
-│   │   ├── app.css
-│   │   └── app.js
-│   ├── test
-│   │   └── controller_test.js
-│   └── views
-│       ├── edit.jade
-│       ├── index.jade
-│       ├── layout.jade
-│       └── new.jade
-└── tmp
-
-6 directories, 11 files
-</code></pre>
-
-<h2 id="launch-server">Launch server</h2>
-<p>Let's launch the server!</p>
-<pre><code>airlane serve
-</code></pre>
-
-<p>Now, you can access to the web server <strong><a href="http://localhost:8080/">http://localhost:8080/</a></strong>.</p>
-<p><img alt="" src="../images/first-view.png" /></p>
-<p>Conglaturations! You were aboarding Airlane!</p>
-<p>Next is <a href="../update-view">update view</a></p>
+<p><strong>Currentry Airlane doesn't support modules (version 0.1.4).</strong></p>
+<p>Test code localed to <em>hello/routes/test/controller_test.js</em>. And Airlane supports express, jsdom, supertest for global variouses.</p>
+<table>
+<thead>
+<tr>
+<th>Library</th>
+<th>Various</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>express</td>
+<td>app</td>
+</tr>
+<tr>
+<td>jsdom</td>
+<td>jsdom</td>
+</tr>
+<tr>
+<td>supertest</td>
+<td>request</td>
+</tr>
+</tbody>
+</table>
+<p>If you want to write test code, please check <a href="https://mochajs.org">Mocha</a> documents.</p>
               
             </div>
           </div>
@@ -195,10 +178,10 @@ npm install
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../update-view/" class="btn btn-neutral float-right" title="Update view">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../routing/" class="btn btn-neutral float-right" title="Add routing">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href=".." class="btn btn-neutral" title="Top"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../database/" class="btn btn-neutral" title="Database"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -224,10 +207,10 @@ npm install
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../database/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../update-view/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../routing/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

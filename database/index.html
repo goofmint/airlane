@@ -8,7 +8,7 @@
   
   
   
-  <title>Getting started - Airlane</title>
+  <title>Database - Airlane</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -23,9 +23,9 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Getting started";
-    var mkdocs_page_input_path = "getting-started.md";
-    var mkdocs_page_url = "/getting-started/";
+    var mkdocs_page_name = "Database";
+    var mkdocs_page_input_path = "database.md";
+    var mkdocs_page_url = "/database/";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -62,21 +62,8 @@
 <li>
           
             <li>
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Getting started</a>
-        
-            <ul>
-            
-                <li class="toctree-l3"><a href="#lets-aboard">Let's aboard!</a></li>
-                
-                    <li><a class="toctree-l4" href="#install-airlane">Install airlane</a></li>
-                
-                    <li><a class="toctree-l4" href="#generate-project">Generate project</a></li>
-                
-                    <li><a class="toctree-l4" href="#launch-server">Launch server</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../getting-started/">Getting started</a>
         
     </li>
 <li>
@@ -89,8 +76,17 @@
 <li>
           
             <li>
-    <li class="toctree-l1 ">
-        <a class="" href="../database/">Database</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Database</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#how-to-use-database-on-airlane">How to use database on Airlane</a></li>
+                
+                    <li><a class="toctree-l4" href="#generate-base-model">Generate base model</a></li>
+                
+            
+            </ul>
         
     </li>
 <li>
@@ -131,7 +127,7 @@
     
       
     
-    <li>Getting started</li>
+    <li>Database</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -141,53 +137,98 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="lets-aboard">Let's aboard!</h1>
-<h2 id="install-airlane">Install airlane</h2>
-<p>You can install the airlane with npm command below.</p>
-<pre><code>npm install airlane -g
+                <h1 id="how-to-use-database-on-airlane">How to use database on Airlane</h1>
+<p>Airlane supports some database systems.</p>
+<ul>
+<li>SQLite3</li>
+<li>MySQL/MariaDB</li>
+<li>PostgreSQL</li>
+<li>MS SQL</li>
+</ul>
+<p>Airlane uses O/R mapper named <a href="http://docs.sequelizejs.com/en/v3/">Sequelize</a>. If you want to know about how to use the Sequelize, you should read their document.</p>
+<h2 id="generate-base-model">Generate base model</h2>
+<p>You can generate skeleton code with command.</p>
+<pre><code>airlane generate model db task
 </code></pre>
 
-<h2 id="generate-project">Generate project</h2>
-<p>After installing, you can make a project.</p>
-<pre><code>cd /path/to/some/where
-airlane init hello
-cd hello
-npm install
+<p>This command generates a JavaScript file located to <em>hello/modules/db/task.js</em>.</p>
+<pre><code>module.exports = (options) =&gt; {
+  var database = options.database;
+  var Sequelize = database.Sequelize;
+  var db = database.database;
+
+  var Task = db.define('tasks', {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
+    created_at: {
+      type: Sequelize.DATE,
+      default: new Date
+    },
+    updated_at: {
+      type: Sequelize.DATE,
+      default: new Date
+    }
+  }, {
+    freezeTableName: true
+  });
+
+  Task.sync().then(() =&gt; {
+  });
+
+  Task.role = 'Task';
+  return Task;
+}
 </code></pre>
 
-<p>Airlane generates some files and directory.</p>
-<pre><code>$ tree .
-.
-├── config.js
-├── modules
-├── package.json
-├── routes
-│   ├── controller.js
-│   ├── index.js
-│   ├── public
-│   │   ├── app.css
-│   │   └── app.js
-│   ├── test
-│   │   └── controller_test.js
-│   └── views
-│       ├── edit.jade
-│       ├── index.jade
-│       ├── layout.jade
-│       └── new.jade
-└── tmp
-
-6 directories, 11 files
+<p>Base code has 3 colmuns.</p>
+<ul>
+<li><strong>id</strong> 
+Unique key.</li>
+<li><strong>created_at</strong><br />
+Created time. You should never update it.</li>
+<li><strong>updated_at</strong><br />
+Last updated time. You should update it with data updates.</li>
+</ul>
+<h3 id="using-model-with-controller">Using model with controller</h3>
+<p><em>routes/index.js</em> has database variable.</p>
+<pre><code>module.exports = module =&gt; {
+  /*
+    Database module
+    module.Db.Sequelize
+    module.Db.db
+  */
+  :
+}
 </code></pre>
 
-<h2 id="launch-server">Launch server</h2>
-<p>Let's launch the server!</p>
-<pre><code>airlane serve
+<p>So, you change the code like below.</p>
+<p><strong>Before:</strong></p>
+<pre><code>router.get('/', (req, res, next) =&gt; {
+  controller.index(req, res, next);
+});
 </code></pre>
 
-<p>Now, you can access to the web server <strong><a href="http://localhost:8080/">http://localhost:8080/</a></strong>.</p>
-<p><img alt="" src="../images/first-view.png" /></p>
-<p>Conglaturations! You were aboarding Airlane!</p>
-<p>Next is <a href="../update-view">update view</a></p>
+<p><strong>After:</strong></p>
+<pre><code>router.get('/', (req, res, next) =&gt; {
+  controller.index(req, res, module.Db, next);
+});
+</code></pre>
+
+<p>And change <em>routes/controler.js</em>.</p>
+<pre><code>// GET /
+index(req, res, Db, next) {
+  let Task = Db.Task;
+  Task.findAll()
+    .then( tasks =&gt; {
+      res.render('index', {tasks: tasks}); 
+    });
+}
+</code></pre>
+
+<p>Then, you can use database easily.</p>
               
             </div>
           </div>
@@ -195,10 +236,10 @@ npm install
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../update-view/" class="btn btn-neutral float-right" title="Update view">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../test/" class="btn btn-neutral float-right" title="Test">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href=".." class="btn btn-neutral" title="Top"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../update-view/" class="btn btn-neutral" title="Update view"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -224,10 +265,10 @@ npm install
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../update-view/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../update-view/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../test/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
