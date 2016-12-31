@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 var program = require('commander');
- 
+var package = require('../package')
 program
-  .version('0.0.1')
+  .version(package.version)
   .command('generate module [name]', 'Generate module code.')
   .command('init', 'Generate app base')
   .command('serve', 'Start dev server')
