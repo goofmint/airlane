@@ -1,4 +1,8 @@
-module.exports = ((target_dir) => {
+var path = require('path');
+module.exports = (target_dir => {
+  require('set-node-path')(
+    path.resolve(`${target_dir}/node_modules`)
+  );
   var database = require(`${target_dir}/config`)[process.env.NODE_ENV].database;
   var Sequelize = require('sequelize');
   var db = new Sequelize(database.database, database.username, database.password, {

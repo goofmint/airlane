@@ -89,11 +89,8 @@ var addRouter = (app, module, path, base_path) => {
 }
 
 // Root access.
-var Modules           = require('./modules');
-var database          = require('./libs/database')(target_dir);
-var mailer            = require('./libs/mailer')(target_dir);
-var modules = new Modules({database: database, mailer: mailer});
-modules.getModules(target_dir).then((module) => {
+var Module = require('./modules')(target_dir);
+Module.getModules().then((module) => {
   app.use('/', require(`${target_dir}/routes`)(module));
   app.use('/', express.static(`${target_dir}/routes/public`));
   let base_path = `${target_dir}/routes`;

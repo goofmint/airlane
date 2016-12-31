@@ -1,8 +1,11 @@
-var should = chai.should();
-var expect = chai.expect;
-var router = require('../index')();
+var chai    = require('chai');
+var jsdom   = require('jsdom');
+var request = require('supertest');
+var app     = require('express')();
+var should  = chai.should();
+var expect  = chai.expect;
+var router  = require('../index')(m);
 var config = require('${"../".repeat(module_name.split("/").length + 1)}config');
-
 app.use('/', router);
 app.set('view engine', config.test.view_engine);
 

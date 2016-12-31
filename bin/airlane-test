@@ -1,4 +1,4 @@
 #!/usr/bin/env node
 var gulp = require('../airlane.gulp');
-
+process.env.NODE_ENV = 'test';
 gulp.start(['test']);

@@ -1,10 +1,14 @@
 var fs = require('fs');
 var path = require('path');
+var common = require('./libs/common');
 
 class Modules {
-  constructor(options) {
+  constructor(target_dir) {
+    var database = require('./libs/database')(target_dir);
+    var mailer   = require('./libs/mailer')(target_dir);
     this.modules = {};
-    this.options = options;
+    this.target_dir = target_dir;
+    this.options = {database: database, mailer: mailer};
   }
   loadModules(module_dir, dir) {
     var me = this;
@@ -22,14 +26,14 @@ class Modules {
     })
   }
   
-  getModules(target_dir) {
+  getModules() {
     var me = this;
     var allModules = {};
     return new Promise((res, rej) => {
       let promises = [];
       try {
-        console.log(`Load dir. ${target_dir}/modules`);
-        let module_dir = `${target_dir}/modules`;
+        let module_dir = `${this.target_dir}/modules`;
+        console.log(`Load dir. ${module_dir}`);
         fs.readdir(module_dir, (error, files) => {
           for (var i in files) {
             let dir = files[i];
@@ -80,4 +84,6 @@ modules.getModules(target_dir).then(() => {
 });
 */
 
-module.exports = Modules;
+module.exports = (target_dir) => {
+  return new Modules(target_dir);
+}

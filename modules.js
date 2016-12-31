@@ -6,13 +6,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var fs = require('fs');
 var path = require('path');
+var common = require('./libs/common');
 
 var Modules = function () {
-  function Modules(options) {
+  function Modules(target_dir) {
     _classCallCheck(this, Modules);
 
+    var database = require('./libs/database')(target_dir);
+    var mailer = require('./libs/mailer')(target_dir);
     this.modules = {};
-    this.options = options;
+    this.target_dir = target_dir;
+    this.options = { database: database, mailer: mailer };
   }
 
   _createClass(Modules, [{
@@ -34,15 +38,17 @@ var Modules = function () {
     }
   }, {
     key: 'getModules',
-    value: function getModules(target_dir) {
+    value: function getModules() {
+      var _this = this;
+
       var me = this;
       var allModules = {};
       return new Promise(function (res, rej) {
         var promises = [];
         try {
           (function () {
-            console.log('Load dir. ' + target_dir + '/modules');
-            var module_dir = target_dir + '/modules';
+            var module_dir = _this.target_dir + '/modules';
+            console.log('Load dir. ' + module_dir);
             fs.readdir(module_dir, function (error, files) {
               for (var i in files) {
                 var dir = files[i];
@@ -99,4 +105,6 @@ modules.getModules(target_dir).then(() => {
 });
 */
 
-module.exports = Modules;
+module.exports = function (target_dir) {
+  return new Modules(target_dir);
+};
