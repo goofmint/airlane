@@ -64,7 +64,7 @@ gulp.task('test', () => {
   var Module = require('./modules')(target_dir);
   Module.getModules().then((m) => {
     global.m = m;
-    global.airlane_path = `${__dirname}/node_modules`;
+    global.airlane_path = __dirname;
     gulp
       .src(['!**/node_modules/**/*.js', '**/test/*.js'], {read: false})
       .pipe(mocha({reporter: 'nyan'}));
