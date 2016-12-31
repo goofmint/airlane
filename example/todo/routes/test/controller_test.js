@@ -1,3 +1,7 @@
+var path = require('path');
+require('set-node-path')(
+  path.resolve(`${airlane_path}/node_modules`)
+);
 var chai    = require('chai');
 var jsdom   = require('jsdom');
 var request = require('supertest');

@@ -60,13 +60,11 @@ gulp.task('rework', watchify( watchify => {
 }));
 
 gulp.task('test', () => {
-  require('set-node-path')(
-    path.resolve(`${__dirname}/node_modules`)
-  );
   let target_dir        = fs.realpathSync('./');
   var Module = require('./modules')(target_dir);
   Module.getModules().then((m) => {
     global.m = m;
+    global.airlane_path = `${__dirname}/node_modules`;
     gulp
       .src(['!**/node_modules/**/*.js', '**/test/*.js'], {read: false})
       .pipe(mocha({reporter: 'nyan'}));
