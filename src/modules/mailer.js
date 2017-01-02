@@ -1,6 +1,8 @@
 module.exports = ((target_dir) => {
   return new Promise( (res, rej) => {
     var smtp = require(`${target_dir}/config`)[process.env.NODE_ENV].smtp;
+    if (!smtp)
+      return res({});
     var nodemailer = require('nodemailer');
     var uri = "";
     uri = `smtp${smtp.secure ? 's' : ''}://`;

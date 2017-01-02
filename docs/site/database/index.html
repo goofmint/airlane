@@ -85,6 +85,10 @@
                 
                     <li><a class="toctree-l4" href="#generate-base-model">Generate base model</a></li>
                 
+                    <li><a class="toctree-l4" href="#migration">Migration</a></li>
+                
+                    <li><a class="toctree-l4" href="#using-model-with-controller">Using model with controller</a></li>
+                
             
             </ul>
         
@@ -158,9 +162,9 @@
 <li>SQLite3</li>
 <li>MySQL/MariaDB</li>
 <li>PostgreSQL</li>
-<li>MS SQL</li>
+<li>Amazon Redshift</li>
 </ul>
-<p>Airlane uses O/R mapper named <a href="http://docs.sequelizejs.com/en/v3/">Sequelize</a>. If you want to know about how to use the Sequelize, you should read their document.</p>
+<p>Airlane uses O/R mapper named <a href="https://github.com/dresende/node-orm2">ORM2</a>. If you want to know about how to use the ORM2, you should read their document.</p>
 <h2 id="generate-base-model">Generate base model</h2>
 <p>You can generate skeleton code with command.</p>
 <pre><code>airlane generate model db task
@@ -168,33 +172,15 @@
 
 <p>This command generates a JavaScript file located to <em>hello/modules/db/task.js</em>.</p>
 <pre><code>module.exports = (options) =&gt; {
-  var database = options.database;
-  var Sequelize = database.Sequelize;
-  var db = database.database;
-
-  var Task = db.define('tasks', {
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    created_at: {
-      type: Sequelize.DATE,
-      default: new Date
-    },
-    updated_at: {
-      type: Sequelize.DATE,
-      default: new Date
-    }
-  }, {
-    freezeTableName: true
-  });
-
-  Task.sync().then(() =&gt; {
-  });
-
-  Task.role = 'Task';
-  return Task;
+  return new Promise((res, rej) =&gt; {
+    var db = options.database;
+    var Task = db.define('tasks', {
+        id: { type: &quot;serial&quot;, key: true },
+        created_at: { type: &quot;date&quot;, time: true, defaultValue: (new Date)},
+        updated_at: { type: &quot;date&quot;, time: true, defaultValue: (new Date)}
+      });
+    res({Task: Task});
+  })
 }
 </code></pre>
 
@@ -207,39 +193,62 @@ Created time. You should never update it.</li>
 <li><strong>updated_at</strong><br />
 Last updated time. You should update it with data updates.</li>
 </ul>
-<h3 id="using-model-with-controller">Using model with controller</h3>
-<p><em>routes/index.js</em> has database variable.</p>
+<h2 id="migration">Migration</h2>
+<p>When you make a model file, Airlane also generates migration file located <em>migrations/999-create-xxx.js</em></p>
+<pre><code>
+exports.up = function(next){
+  this.createTable('xxx', {
+      id         : { type : &quot;serial&quot;, key: true }, // auto increment
+      created_at : { type : &quot;date&quot;, time:true, required: true },
+      updated_at : { type : &quot;date&quot;, time:true, required: true }
+  }, next);
+};
+
+exports.down = function(next){
+  this.dropTable('xxx', next);
+};
+</code></pre>
+
+<p>You can change to fit your scheme. And execute it. Airlane execute sql to your database.</p>
+<pre><code>$ airlane migration up
+</code></pre>
+
+<h3 id="generate-migration-file">Generate migration file</h3>
+<p>You can manage database scheme with Airlane.</p>
+<pre><code>airlane generate migration something
+  create : /Users/nakatsugawa/Documents/airline/example/todo/migrations/999-something.js
+</code></pre>
+
+<p>You can fix it, and execute migration. Migration format follows <a href="https://github.com/locomote/node-migrate-orm2">locomote/node-migrate-orm2</a>. After fix the scheme, you have to fix your model file's define.</p>
+<pre><code>exports.up = function(next){
+  next();
+};
+
+exports.down = function(next){
+  next();
+};
+</code></pre>
+
+<h2 id="using-model-with-controller">Using model with controller</h2>
+<p><em>routes/index.js</em> and <em>routes/controller.js</em> have database variable.</p>
 <pre><code>module.exports = module =&gt; {
   /*
     Database module
-    module.Db.Sequelize
-    module.Db.db
+    module.db.YOUR_MODEL_NAMES
   */
   :
 }
 </code></pre>
 
-<p>So, you change the code like below.</p>
-<p><strong>Before:</strong></p>
-<pre><code>router.get('/', (req, res, next) =&gt; {
-  controller.index(req, res, next);
-});
-</code></pre>
-
-<p><strong>After:</strong></p>
-<pre><code>router.get('/', (req, res, next) =&gt; {
-  controller.index(req, res, module.Db, next);
-});
-</code></pre>
-
 <p>And change <em>routes/controler.js</em>.</p>
-<pre><code>// GET /
-index(req, res, Db, next) {
-  let Task = Db.Task;
-  Task.findAll()
-    .then( tasks =&gt; {
-      res.render('index', {tasks: tasks}); 
-    });
+<pre><code>let Task = module.db.Task;
+
+// GET /
+index(req, res, next) {
+  Task.find((err, tasks) =&gt; {
+    if (err) throw err;
+    res.render('index', {tasks: tasks}); 
+  });
 }
 </code></pre>
 

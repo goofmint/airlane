@@ -106,4 +106,4 @@ Module.getModules().then(function (module) {
 // start the server
 // =======================
 app.listen(port);
-console.log('application started');
+console.log('application started http://localhost:' + port + '/');

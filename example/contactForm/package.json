@@ -1,5 +1,5 @@
 {
-  "name": "mail_form",
+  "name": "contactform",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,8 @@
   "license": "",
   "dependencies": {
     "bootstrap": "^3.3.7",
-    "jade": "^1.11.0",
+    "pug": "^2.0.0-beta6",
+    "set-node-path": "0.0.2",
     "sqlite3": "^3.1.8"
   }
 }

@@ -19,23 +19,17 @@ module.exports = module => {
     controller.all(req, res, next);
   });
 
-  // GET /
-  // Show index page
-  router.get('/', (req, res, next) => {
-    controller.index(req, res, next);
+  // GET contacts//new
+  // Show create page
+  router.get('/new', (req, res, next) => {
+    controller.new(req, res, next);
   });
 
-  // POST 
+  // POST contacts/
   // Create something.
   router.post('/', (req, res, next) => {
     controller.create(req, res, next);
   });
 
-  // DELETE /:id
-  // Delete something.
-  router.delete('/:id', (req, res, next) => {
-    controller.destroy(req, res, next);
-  });
-  
   return router;
 }

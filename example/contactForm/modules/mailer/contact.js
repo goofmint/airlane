@@ -1,20 +1,28 @@
+var fs = require('fs');
 module.exports = (options) => {
   return new Promise((res, rej) => {
     var mailer =  options.mailer.mailer;
     var transporter = options.mailer.transporter;
 
-    class ${module_name.capitalize()} {
+    class Contact {
       constructor() {
         this.options = {
-          from: '"Your name" <test@example.com>',
-          subject: 'Mail subject - ${module_name}',
+          from: '"Test mailer" <test@example.com>',
+          subject: 'Thank you for your contact',
           text: "",
           to: "",
           html: ""
         };
+        this.body = fs.readFileSync(`${__dirname}/body.txt`, 'utf-8');
       }
       
       setParams(params) {
+        this.options.to = `"${params.name}" <${params.email}>`;
+        let body = this.body;
+        for (var key in params) {
+          body = body.replace(`__${key.toUpperCase()}__`, params[key]);
+        }
+        this.options.text = body;
       }
       
       send() {
@@ -57,6 +65,6 @@ module.exports = (options) => {
         })
       }
     };
-    res({${module_name.capitalize()}: ${module_name.capitalize()}});
+    res({Contact: Contact});
   });
 }

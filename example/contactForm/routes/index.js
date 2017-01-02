@@ -25,17 +25,5 @@ module.exports = module => {
     controller.index(req, res, next);
   });
 
-  // POST 
-  // Create something.
-  router.post('/', (req, res, next) => {
-    controller.create(req, res, next);
-  });
-
-  // DELETE /:id
-  // Delete something.
-  router.delete('/:id', (req, res, next) => {
-    controller.destroy(req, res, next);
-  });
-  
   return router;
 }

@@ -11,25 +11,10 @@ module.exports = module => {
 
   class TodoController {
     constructor() {
-      // Authentication expected.
-      this.expected = [
-        // Define like below.
-        // {url: '/new', method: 'GET'}
-      ];
-      // Authentication required.
-      this.required = [
-        // Define like below.
-        // {url: '/:id/', method: 'PUT'},
-      ]
     }
     
     all(req, res, next) {
       req.app.set('views', __dirname + '/views/');
-      // Authentication expected
-      // common.exclude_authentication(this.expected, req, res);
-      
-      // Authentication required
-      // common.require_authentication(this.required, req, res, `/auth/new?path=${req.url}`);
       next();
     }
     
@@ -41,11 +26,6 @@ module.exports = module => {
       });
     }
     
-    // GET /new
-    new(req, res, next) {
-      res.render('new'); 
-    }
-    
     // POST /
     create(req, res, next) {
       Task.create({
@@ -54,15 +34,6 @@ module.exports = module => {
         if (err) throw err;
         res.redirect("/");
       })
-    }
-    
-    // GET /:id/edit
-    edit(req, res, next) {
-      res.render('edit'); 
-    }
-    
-    // PUT /:id
-    update(req, res, next) {
     }
     
     // DELETE /:id

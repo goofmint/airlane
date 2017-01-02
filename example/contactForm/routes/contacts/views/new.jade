@@ -1,0 +1,22 @@
+extends ../../views/layout
+block title
+  title contacts#new
+block body
+  h1 contacts#new
+  form.contact_form
+    div.hide.alert.message
+    div.form-group
+      label(for=companyName) Company name
+      input.form-control(type="text",placeholder="Your company name",name="companyName")
+    div.form-group
+      label(for=yourName) Your name
+      input.form-control(type="text",placeholder="Your name",name="name")
+    div.form-group
+      label(for=email) Email address
+      input.form-control(type="email",placeholder="Your email addoress",name="email")
+    div.form-group
+      label(for=body) Body
+      textarea.form-control(placeholder="Contact body",name="body",rows=10)
+    button.btn.btn-default(type="submit") Submit
+block script
+  script(src="/contacts/app.min.js")
