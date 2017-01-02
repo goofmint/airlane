@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Todo App - Airlane</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Todo App";
+    var mkdocs_page_input_path = "tutorials/todo.md";
+    var mkdocs_page_url = "/tutorials/todo/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Airlane</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../..">Top</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../getting-started/">Getting started</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../update-view/">Update view</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../database/">Database</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../test/">Test</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../../routing/">Add routing</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Tutorials</span></li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Todo App</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#making-todo-app">Making todo app</a></li>
+                
+                    <li><a class="toctree-l4" href="#setup">Setup</a></li>
+                
+                    <li><a class="toctree-l4" href="#create-module">Create module</a></li>
+                
+                    <li><a class="toctree-l4" href="#import-bootstrap">Import bootstrap</a></li>
+                
+                    <li><a class="toctree-l4" href="#launch-server">Launch server</a></li>
+                
+                    <li><a class="toctree-l4" href="#router-and-controller">Router and controller</a></li>
+                
+                    <li><a class="toctree-l4" href="#update-view">Update view</a></li>
+                
+                    <li><a class="toctree-l4" href="#edit-controllerdestroy">Edit controller#destroy</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Airlane</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Tutorials &raquo;</li>
+        
+      
+    
+    <li>Todo App</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="making-todo-app">Making todo app</h1>
+<p>This page explains how to make a todo app with Airlane.</p>
+<h2 id="setup">Setup</h2>
+<p>Install Airlane with npm. At first You have to install Node.js.</p>
+<pre><code>npm install airlane -g
+</code></pre>
+
+<p>After installation, create project and setup it.</p>
+<pre><code>$ airlane init todo
+$ cd todo/
+$ npm install
+</code></pre>
+
+<h2 id="create-module">Create module</h2>
+<p>You should create a database table named "Task". Airlane have provided O/R mapper and model generator.</p>
+<pre><code>$ airlane generate model db task
+/path/to/todo/modules/db/task.js created.
+/path/to/todo/migrations/001-create-tasks.js created.
+</code></pre>
+
+<p>Edit migration file <em>/path/to/todo/migrations/001-create-tasks.js</em>.</p>
+<p><strong>Before:</strong>**</p>
+<pre><code>exports.up = function(next){
+  this.createTable('tasks', {
+      id         : { type : &quot;serial&quot;, key: true }, // auto increment
+      created_at : { type : &quot;date&quot;, time:true, required: true },
+      updated_at : { type : &quot;date&quot;, time:true, required: true }
+  }, next);
+};
+
+exports.down = function(next){
+  this.dropTable('tasks', next);
+};
+</code></pre>
+
+<p><strong>After:</strong></p>
+<pre><code>exports.up = function(next){
+  this.createTable('tasks', {
+      id         : { type : &quot;serial&quot;, key: true }, // auto increment
+      name       : { type : &quot;text&quot;, required: true}, // Add this line
+      created_at : { type : &quot;date&quot;, time:true, required: true },
+      updated_at : { type : &quot;date&quot;, time:true, required: true }
+  }, next);
+};
+
+exports.down = function(next){
+  this.dropTable('tasks', next);
+};
+</code></pre>
+
+<p>Also edit model file <em>/path/to/todo/modules/db/task.js</em>.</p>
+<p><strong>Before:</strong></p>
+<pre><code>module.exports = (options) =&gt; {
+  return new Promise((res, rej) =&gt; {
+    var db = options.database;
+    var Task = db.define('tasks', {
+        id: { type: &quot;serial&quot;, key: true },
+        created_at: { type: &quot;date&quot;, time: true, defaultValue: (new Date)},
+        updated_at: { type: &quot;date&quot;, time: true, defaultValue: (new Date)}
+      });
+    res({Task: Task});
+  })
+}
+</code></pre>
+
+<p><strong>After:</strong></p>
+<pre><code>module.exports = (options) =&gt; {
+  return new Promise((res, rej) =&gt; {
+    var db = options.database;
+    var Task = db.define('tasks', {
+        id: { type: &quot;serial&quot;, key: true },
+        name: { type: &quot;text&quot;, required: true }, // Add this line
+        created_at: { type: &quot;date&quot;, time: true, defaultValue: (new Date)},
+        updated_at: { type: &quot;date&quot;, time: true, defaultValue: (new Date)}
+      });
+    res({Task: Task});
+  })
+}
+</code></pre>
+
+<p>After editing, execute migration up command.</p>
+<pre><code>$ airlane migration up
+  up : 001-create-tasks.js
+  migration : complete
+</code></pre>
+
+<p>If you got some errors, you can try migration again after fix problems.</p>
+<pre><code>$ airlane migration down # This command do migration down
+$ airlane migration redo # This command do migration down and up.
+</code></pre>
+
+<h2 id="import-bootstrap">Import bootstrap</h2>
+<p>Todo app uses bootstrap for design template. You should install it using npm command.</p>
+<pre><code>$ npm install bootstrap --save
+</code></pre>
+
+<p>After installed, update JavaScript file <em>routes/public/app.js</em>*</p>
+<pre><code>global.jQuery = global.$ = require('jquery');
+require('bootstrap');
+$(() =&gt; {
+});
+</code></pre>
+
+<p>And <em>routes/public/app.css</em>.</p>
+<pre><code>@import bootstrap;
+</code></pre>
+
+<h2 id="launch-server">Launch server</h2>
+<p>OK. You are ready to launch the server!</p>
+<pre><code>$ airlane serve
+</code></pre>
+
+<p>And access to <em>http://localhost:8080/</em>.</p>
+<h2 id="router-and-controller">Router and controller</h2>
+<p>When you access to <em>http://localhost:8080/</em>, Router that located <em>routes/index.js</em> is called index action.</p>
+<pre><code>// GET /
+// Show index page
+router.get('/', (req, res, next) =&gt; {
+  controller.index(req, res, module.db, next);
+});
+</code></pre>
+
+<p>And router call the controller index action.</p>
+<pre><code>// GET /
+index(req, res, next) {
+  res.render('index'); 
+}
+</code></pre>
+
+<p>Response object (res) called render method with index. It means response uses <em>routes/views/index.jade</em>* for rendering.</p>
+<p>You will update those files.</p>
+<h2 id="update-view">Update view</h2>
+<p>Next step, you are editing view file located <em>routes/views/index.jade</em> like below. Airlane supports jade template (it's default). And this is bootstrap style class and format.</p>
+<pre><code>extends ./layout
+block title
+  title Todo app
+block body
+  div.container
+    div.row
+      div.col-md-8.col-md-offset-2
+        h1 Todo App
+        form(action=&quot;/&quot;, method=&quot;POST&quot;)
+          div.form-group
+            label(for=inputTask) Task name
+            input.form-control(name=&quot;name&quot;, type=&quot;text&quot;,placeholder=&quot;Study airlane&quot;)
+          button.btn.btn-default(type=submit) Register task
+    div.row
+      div.col-md-8.col-md-offset-2
+        if tasks.length &lt; 2
+          h2 #{tasks.length} Task
+        else
+          h2 #{tasks.length} Tasks
+
+        each task in tasks
+          div.row
+            div.col-md-3.col-md-offset-1
+              div #{task.name} 
+            div.col-md-2
+              span
+                form(action=&quot;/#{task.id}&quot;,method=&quot;POST&quot;)
+                  input.hidden(name=&quot;_method&quot;,value=&quot;DELETE&quot;)
+                  button.btn.btn-ms.btn-default done
+</code></pre>
+
+<p>You can recognize a various <em>tasks</em> that provides from controller.</p>
+<h3 id="edit-controllerindex">Edit controller#index</h3>
+<p>You should edit controller file located <em>routes/controller.js</em> for access to <em>GET /</em>.</p>
+<pre><code>index(req, res, next) {
+  let Task = module.db.Task;
+  Task.find((err, tasks) =&gt; {
+    if (err) throw err;
+    res.render('index', {tasks: tasks}); 
+  });
+}
+</code></pre>
+
+<h3 id="edit-controllerpost">Edit controller#post</h3>
+<p>Next is create action. It is called by <em>POST /</em> action.</p>
+<pre><code>// POST /
+create(req, res, next) {
+  let Task = module.db.Task;
+  Task.create({
+    name: req.body.name
+  }, (err, task) =&gt; {
+    if (err) throw err;
+    res.redirect(&quot;/&quot;);
+  })
+}
+</code></pre>
+
+<h2 id="edit-controllerdestroy">Edit controller#destroy</h2>
+<p>Last step is destroy action. It is called by <em>DELETE /:id</em> action.</p>
+<pre><code>// DELETE /:id
+destroy(req, res, Db, next) {
+  Task.get(req.params.id, (err, task) =&gt; {
+    if (err) throw err;
+    task.remove((err, task) =&gt; {
+      res.redirect(&quot;/&quot;);
+    })
+  })
+}
+</code></pre>
+
+<p>That's all! You made a todo app!</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../../routing/" class="btn btn-neutral" title="Add routing"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../../routing/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+
+</body>
+</html>
