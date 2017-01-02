@@ -12,31 +12,12 @@ var Modules = function () {
   function Modules(target_dir) {
     _classCallCheck(this, Modules);
 
-    var database = require('./libs/database')(target_dir);
-    var mailer = require('./libs/mailer')(target_dir);
     this.modules = {};
     this.target_dir = target_dir;
-    this.options = { database: database, mailer: mailer };
+    this.libraries = {};
   }
 
   _createClass(Modules, [{
-    key: 'loadModules',
-    value: function loadModules(module_dir, dir) {
-      var me = this;
-      var modules = {};
-      return new Promise(function (res, rej) {
-        fs.readdir(module_dir + '/' + dir, function (error, files) {
-          files.forEach(function (file) {
-            var fp = path.join(module_dir + '/' + dir, file);
-            if (fs.statSync(fp).isDirectory()) return;
-            if (!fp.match(/.*\.js$/)) return;
-            modules[file.replace(/\.js$/, "").capitalize()] = require(fp)(me.options);
-          });
-          res([dir.capitalize(), modules]);
-        });
-      });
-    }
-  }, {
     key: 'getModules',
     value: function getModules() {
       var _this = this;
@@ -44,50 +25,81 @@ var Modules = function () {
       var me = this;
       var allModules = {};
       return new Promise(function (res, rej) {
-        var promises = [];
-        try {
-          (function () {
-            var module_dir = _this.target_dir + '/modules';
-            console.log('Load dir. ' + module_dir);
-            fs.readdir(module_dir, function (error, files) {
-              for (var i in files) {
-                var dir = files[i];
-                if (dir.indexOf('.') == 0) continue;
-                console.log('Load module. ' + module_dir + '/' + dir);
-                promises.push(me.loadModules(module_dir, dir));
-              }
-              Promise.all(promises).then(function (modules) {
-                modules.forEach(function (module) {
-                  allModules[module[0]] = module[1];
-                });
-                res(allModules);
+        me.loadLibraries().then(function (libraries) {
+          _this.libraries = libraries;
+          var promises = [];
+          var module_dir = me.target_dir + '/modules';
+          fs.readdir(module_dir, function (error, files) {
+            for (var i in files) {
+              var dir = files[i];
+              if (dir.indexOf('.') == 0) continue;
+              console.log('Load module. ' + module_dir + '/' + dir);
+              promises.push(me.loadModules(module_dir, dir, libraries));
+            }
+            Promise.all(promises).then(function (modules) {
+              var results = {};
+              modules.forEach(function (module) {
+                Object.assign(results, module);
               });
+              res(results);
             });
-          })();
-        } catch (e) {
-          rej(e);
-        }
+          });
+        }, function (err) {
+          return console.log('getModules #1 Error. ' + err);
+        });
       });
     }
   }, {
-    key: 'find',
-    value: function find(role) {
-      var results = [];
-      for (var i in this.modules) {
-        var module = this.modules[i];
-        if (Array.isArray(module)) {
-          for (var j in module) {
-            if (module[j].role == role) {
-              results.push(module[j]);
-            }
-          }
-        } else {
-          if (module.role == role) {
-            results.push(module);
-          }
-        }
-      }
-      return results;
+    key: 'loadLibraries',
+    value: function loadLibraries() {
+      var me = this;
+      return new Promise(function (res, rej) {
+        fs.readdir(__dirname + '/modules/', function (error, files) {
+          if (error) throw error;
+          var promises = [];
+          files.forEach(function (file) {
+            if (!file.match(/\.js$/)) return;
+            promises.push(require(__dirname + '/modules/' + file)(me.target_dir));
+          });
+          Promise.all(promises).then(function (results) {
+            var libraries = {};
+            results.forEach(function (lib) {
+              Object.assign(libraries, lib);
+            });
+            res(libraries);
+          }, function (err) {
+            return console.log('loadLibraries Error. ' + err);
+          });
+        });
+      });
+    }
+  }, {
+    key: 'loadModules',
+    value: function loadModules(module_dir, dir, libraries) {
+      var me = this;
+      var modules = {};
+      var promises = [];
+      return new Promise(function (res, rej) {
+        fs.readdir(module_dir + '/' + dir, function (error, files) {
+          files.forEach(function (file) {
+            var fp = path.join(module_dir + '/' + dir, file);
+            if (fs.statSync(fp).isDirectory()) return;
+            if (!fp.match(/.*\.js$/)) return;
+            promises.push(require(fp)(libraries));
+          });
+          Promise.all(promises).then(function (results) {
+            var modules = {};
+            results.forEach(function (module) {
+              Object.assign(modules, module);
+            });
+            var obj = {};
+            obj[dir] = modules;
+            res(obj);
+          }, function (err) {
+            return console.log('loadModules Error. ' + err);
+          });
+        });
+      });
     }
   }]);
 
@@ -95,15 +107,6 @@ var Modules = function () {
 }();
 
 ;
-
-/*
-var modules = new Modules;
-modules.getModules(target_dir).then(() => {
-}, 
-(e) => {
-  console.error(e);
-});
-*/
 
 module.exports = function (target_dir) {
   return new Modules(target_dir);

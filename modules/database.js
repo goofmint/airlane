@@ -12,12 +12,11 @@ module.exports = function (target_dir) {
     if (config.username && config.password) uri = '' + uri + config.username + ':' + config.password + '@';
     if (config.host) uri = '' + uri + config.host + '/';
     if (config.database) uri = '' + uri + config.database;
-    console.log('uri', uri);
     orm.connect(uri, function (err, db) {
       if (err) {
         rej(err);
       } else {
-        res(db);
+        res({ database: db });
       }
     });
   });

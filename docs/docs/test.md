@@ -12,15 +12,12 @@ airlane test
   3 passing (390ms)
 ```
 
-**Currentry Airlane doesn't support modules (version 0.1.4).**
-
-Test code localed to *hello/routes/test/controller_test.js*. And Airlane supports express, jsdom, supertest for global variouses.
+Test code localed to *hello/routes/test/controller_test.js*. And Airlane provides some variouses.
 
 |Library|Various|
 |-------|-------|
-|express|app|
-|jsdom|jsdom|
-|supertest|request|
+|Module(Database or Mailer)|m|
+|airlane_path|Path to your installed airlane|
 
 If you want to write test code, please check [Mocha](https://mochajs.org) documents.
 

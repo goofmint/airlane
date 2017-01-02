@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var controller = require('./controller')
 
 module.exports = module => {
+  var controller = require('./controller')(module);
+  
   /*
     Database module
-    module.database.Sequelize
-    module.database.db
+    module.db.YOUR_MODEL_NAMES
     
     Mailer module
     module.mailer.nodemailer,
@@ -22,7 +22,7 @@ module.exports = module => {
   // GET /
   // Show index page
   router.get('/', (req, res, next) => {
-    controller.index(req, res, module.Db, next);
+    controller.index(req, res, next);
   });
 
   // GET /new
@@ -34,7 +34,7 @@ module.exports = module => {
   // POST 
   // Create something.
   router.post('/', (req, res, next) => {
-    controller.create(req, res, module.Db, next);
+    controller.create(req, res, next);
   });
 
   // GET /:id/edit
@@ -52,7 +52,7 @@ module.exports = module => {
   // DELETE /:id
   // Delete something.
   router.delete('/:id', (req, res, next) => {
-    controller.destroy(req, res, module.Db, next);
+    controller.destroy(req, res, next);
   });
   
   return router;

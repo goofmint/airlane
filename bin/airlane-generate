@@ -6,4 +6,5 @@ program
   .command('init', 'Generate init code')
   .command('route [name]', 'Generate route code.')
   .command('model [name]', 'Generate model code. Currenty support db or mailer.')
+  .command('migration [name]', 'Generate migration base')
   .parse(process.argv);

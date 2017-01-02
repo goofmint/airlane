@@ -13,8 +13,8 @@ module.exports = {
     },
     database: {
       driver: 'sqlite',
-      host: 'localhost',
-      database: '${controllerName.toLowerCase()}_development'
+      host: './',
+      database: '${controllerName.toLowerCase()}_development.sqlite'
     }
   },
   test: {
@@ -31,8 +31,8 @@ module.exports = {
     },
     database: {
       driver: 'sqlite',
-      host: 'localhost',
-      database: '${controllerName.toLowerCase()}_test'
+      host: './',
+      database: '${controllerName.toLowerCase()}_test.sqlite'
     }
   },
   production: {
@@ -49,8 +49,8 @@ module.exports = {
     },
     database: {
       driver: 'sqlite',
-      host: 'localhost',
-      database: '${controllerName.toLowerCase()}_test'
+      host: './',
+      database: '${controllerName.toLowerCase()}_test.sqlite'
     }
   }
 }

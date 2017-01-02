@@ -1,0 +1,6 @@
+#!/usr/bin/env node
+var gulp = require('../airlane.gulp');
+
+let generation_name = process.argv[2];
+
+gulp.start(['migration-generate']);

@@ -17,8 +17,10 @@ module.exports = function (target_dir) {
     }
     var transporter = nodemailer.createTransport(uri);
     res({
-      nodemailer: nodemailer,
-      transporter: transporter
+      mailer: {
+        nodemailer: nodemailer,
+        transporter: transporter
+      }
     });
   });
 };

@@ -7,3 +7,5 @@ pages:
 - 'Database': 'database.md'
 - 'Test': 'test.md'
 - 'Add routing': 'routing.md'
+- 'Tutorials':
+  - 'Todo App': 'tutorials/todo.md'

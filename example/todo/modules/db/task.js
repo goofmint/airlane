@@ -1,32 +1,12 @@
 module.exports = (options) => {
-  var database = options.database;
-  var Sequelize = database.Sequelize;
-  var db = database.database;
-
-  var Task = db.define('tasks', {
-    id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
-      primaryKey: true
-    },
-    name: {
-      type: Sequelize.STRING
-    },
-    created_at: {
-      type: Sequelize.DATE,
-      default: new Date
-    },
-    updated_at: {
-      type: Sequelize.DATE,
-      default: new Date
-    }
-  }, {
-    freezeTableName: true
-  });
-
-  Task.sync({force: false}).then(() => {
-  });
-
-  Task.role = 'Task';
-  return Task;
+  return new Promise((res, rej) => {
+    var db = options.database;
+    var Task = db.define('tasks', {
+        id: { type: "serial", key: true },
+        name: { type: "text", required: true },
+        created_at: { type: "date", time: true, defaultValue: (new Date)},
+        updated_at: { type: "date", time: true, defaultValue: (new Date)}
+      });
+    res({Task: Task});
+  })
 }

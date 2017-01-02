@@ -11,6 +11,7 @@ let model_name = process.argv[3];
 // Check directory
 
 var dir = `${target_dir}/modules/${type_name}/`;
+var migration_dir = `${target_dir}/migrations/`;
 var path = `${model_name}.js`
 
 require('./templates')(model_name, false)
@@ -30,9 +31,30 @@ require('./templates')(model_name, false)
   })
 
 createBase = (answers = {}) => {
+  
   if (answers[`overwrite_${path}`] !== false) {
     fs.mkdirsSync(dir);
     fs.writeFileSync(`${dir}${path}`, templates[`modules/${type_name}.js`]);
     console.log(`${dir}${path} created.`)
+    
+    if (type_name == 'db') {
+      fs.mkdirsSync(migration_dir);
+      fs.readdir(migration_dir, (error, files) => {
+        if (error) throw error;
+        last_number = 0;
+        files.forEach( file => {
+          let matches = file.match(/^([0-9]+)\-.*?\.js$/);
+          if (!matches) return;
+          if (last_number < parseInt(matches[1])) {
+            last_number = parseInt(matches[1]);
+          }
+        })
+        last_number++;
+        let file_number = ("00" + last_number).slice(-3);
+        let file_name = `${file_number}-create-${model_name.pluralize()}.js`
+        fs.writeFileSync(`${migration_dir}${file_name}`, templates[`migrations/create.js`]);
+        console.log(`${migration_dir}${file_name} created.`)
+      });
+    }
   }
 }

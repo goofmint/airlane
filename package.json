@@ -1,6 +1,6 @@
 {
   "name": "airlane",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "airlane is micro service framework with express.",
   "main": "gulpfile.babel.js",
   "scripts": {
@@ -29,12 +29,13 @@
     "jquery": "^3.1.1",
     "jsdom": "^9.9.1",
     "method-override": "^2.3.7",
+    "migrate-orm2": "^2.0.0",
     "mocha-jsdom": "^1.1.0",
     "nodemailer": "^2.7.0",
+    "orm": "^3.2.2",
     "randomstring": "^1.1.5",
     "rework-npm": "^1.0.0",
     "rework-plugin-at2x": "^1.0.2",
-    "sequelize": "^3.28.0",
     "set-node-path": "0.0.2",
     "supertest": "^2.0.1",
     "watchify": "^3.8.0"

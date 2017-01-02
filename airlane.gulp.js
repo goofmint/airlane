@@ -59,6 +59,58 @@ gulp.task('rework', watchify( watchify => {
   livereload.reload();
 }));
 
+var getMigration = () => {
+  return new Promise((res, rej) => {
+    let target_dir        = fs.realpathSync('./');
+    var MigrateTask = require('migrate-orm2');
+    var Module = new require('./modules')(target_dir);
+    Module.getModules().then( m => {
+      var task = new MigrateTask(Module.libraries.database.driver);
+      res(task);
+    }, (err) => {
+      console.log(`LoadModule Error. ${err}`)
+      rej(err);
+    });
+  })
+}
+gulp.task('migration-generate', () => {
+  let generation_name = process.argv[2];
+  getMigration()
+    .then(task => {
+      task.generate(generation_name, (err, result) => {});
+    });
+});
+
+gulp.task('migration-up', () => {
+  getMigration()
+    .then(task => {
+      task.up((err, result) => {
+        if (err) throw err;
+      });
+    });
+});
+
+gulp.task('migration-down', () => {
+  getMigration()
+    .then(task => {
+      task.down((err, result) => {
+        if (err) throw err;
+      });
+    });
+});
+
+gulp.task('migration-redo', () => {
+  getMigration()
+    .then(task => {
+      task.down((err, result) => {
+        if (err) throw err;
+        task.up((err, result) => {
+          if (err) throw err;
+        });
+      });
+    });
+});
+
 gulp.task('test', () => {
   let target_dir        = fs.realpathSync('./');
   var Module = require('./modules')(target_dir);

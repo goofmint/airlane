@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-var controller = require('./controller')
 
 module.exports = module => {
+  var controller = require('./controller')(module);
+  
   /*
     Database module
-    module.database.Sequelize
-    module.database.Db
+    module.db.YOUR_MODEL_NAMES
     
     Mailer module
     module.mailer.nodemailer,
