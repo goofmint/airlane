@@ -4,27 +4,23 @@ Airlane is the fast and confortable development environments with Node.js and Ex
 
 ## Features
 
-- Routing
-- Database with O/R mapper ([Sequelize](http://docs.sequelizejs.com/en/v3/))
-  - Support PostgreSQL/MySQL/SQLite3/MS SQL
+- Auto load
+  - Database models, routings and controllers. Make those files, require automatically.
+  - Database with O/R mapper ([ORM2](https://github.com/locomote/node-migrate-orm2))
 - Each routing has own View, Routing and Controller
-- Session
 - Code generator
-  - Initialize
-  - Controller
-  - Model
+  - Project initializer/Controller/Model(DB/Mailer)
 - Support ES2015
-  - Server side
-  - Web Browser
+  - Server side/Web Browser
 - Development server
   - Chrome inspector
-  - Auto reload
-  - Auto re-deploy
+  - Auto reload/Auto re-deploy
+- Database migration
+  - Use [locomote/node-migrate-orm2](https://github.com/locomote/node-migrate-orm2).
 - Watchify
-  - Client side JavaScript
-  - Client side Stylesheet
+  - Client side JavaScript/Stylesheet
 - Test
-  - Including Mocha
+  - Mocha
 
 ## Install
 
@@ -35,7 +31,7 @@ npm install airlane -g
 ## Samples
 
 - [Todo App](https://github.com/moongift/airlane/tree/master/example/todo)
-
+- [Contact Form](https://github.com/moongift/airlane/tree/master/example/contactForm)
 ## Usage
 
 ```

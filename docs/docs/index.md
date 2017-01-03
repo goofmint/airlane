@@ -6,7 +6,7 @@ Airlane is fast and confortable developing enveronments for Node.js. You don't n
 
 - Auto load
   - Database models, routings and controllers. Make those files, require automatically.
-- Database with O/R mapper ([ORM2](https://github.com/locomote/node-migrate-orm2))
+  - Database with O/R mapper ([ORM2](https://github.com/locomote/node-migrate-orm2))
 - Each routing has own View, Routing and Controller
 - Code generator
   - Project initializer/Controller/Model(DB/Mailer)
